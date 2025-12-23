@@ -1,0 +1,4 @@
+.ant-table-wrapper .ant-table-thead .ant-table-cell-ellipsis.ant-table-cell-fix-left-last .ant-table-cell-content,
+.ant-table-wrapper .ant-table-thead .ant-table-cell-ellipsis.ant-table-cell-fix-right-first .ant-table-cell-content {
+  overflow: visible;
+}

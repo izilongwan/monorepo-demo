@@ -1,0 +1,10 @@
+export enum API_CODE_STATE {
+  PUBLISH = 1,
+  UNPUBLISH = 0
+}
+
+export enum API_CODE_OUTPUT {
+  NORMAL = 'NORMAL',
+  CAMEL_CASE = 'CAMEL_CASE',
+  CONSTANT_CASE = 'CONSTANT_CASE',
+}

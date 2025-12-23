@@ -1,0 +1,132 @@
+.homeLayout {
+  min-height: 100vh;
+}
+
+.homeHeader {
+  height: 64px;
+  line-height: 64px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+}
+
+.logoLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.logoLink:hover {
+  opacity: 0.8;
+}
+
+.sider {
+  background: #fff;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.06);
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: calc(100vh - 64px);
+}
+
+.menu {
+  height: 100%;
+  border-right: 0;
+}
+
+.menuLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.menuLink:hover {
+  color: inherit;
+}
+
+.content {
+  padding: 24px;
+  background: #f5f5f5;
+  overflow-y: auto;
+  max-height: calc(100vh - 64px);
+}
+
+.contentInner {
+  background: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.userProfile {
+  padding: 16px;
+  min-width: 250px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.userProfileUsername {
+  margin-bottom: 16px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #1890ff;
+}
+
+.userProfileItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 6px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.userProfileItem:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.userProfileLabel {
+  font-size: 13px;
+  color: #666;
+  font-weight: 500;
+}
+
+.userProfileValue {
+  font-size: 13px;
+  color: #333;
+  font-weight: 600;
+}
+
+.userProfilePermissions {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.userProfilePermissionsLabel {
+  font-size: 13px;
+  color: #666;
+  font-weight: 500;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.userProfilePermissionsTags {
+  margin-top: 8px;
+  max-width: 200px;
+}
+
+.userProfilePermissionsTags :global(.ant-tag) + :global(.ant-tag) {
+  margin-top: 8px;
+}

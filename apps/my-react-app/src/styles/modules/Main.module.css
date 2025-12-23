@@ -1,0 +1,99 @@
+.mainPage {
+  padding: 0;
+}
+
+.welcomeCard {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 48px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.title {
+  margin: 0 0 16px 0;
+  font-size: 32px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.subtitle {
+  margin: 0 0 24px 0;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.statCard {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.statCard:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #1890ff;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #1890ff;
+  display: inline-block;
+}
+
+.featureCard {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.featureCard:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+}
+
+.featureCard h3 {
+  margin: 0 0 8px 0;
+  color: #1890ff;
+  font-size: 16px;
+}
+
+.description {
+  color: #666;
+  margin: 0 0 16px 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.quickLink {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  text-align: center;
+  padding: 32px 16px;
+}
+
+.quickLink:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+}
+
+.quickLink h3 {
+  margin: 16px 0 8px 0;
+  color: #1890ff;
+}
+
+.quickLink p {
+  color: #666;
+  margin: 0;
+  font-size: 14px;
+}

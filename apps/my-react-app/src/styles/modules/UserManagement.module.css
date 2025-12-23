@@ -1,0 +1,57 @@
+.container {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	box-sizing: border-box;
+	padding: 0 24px;
+}
+
+.tabs {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+}
+
+.tabContent {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	flex: 1;
+	min-height: 0;
+}
+
+.tableWrapper {
+	flex: 1;
+	overflow: hidden;
+}
+
+.addButton {
+	width: fit-content;
+}
+
+.permissionType {
+	margin-left: 8px;
+	color: #999;
+	font-size: 12px;
+}
+
+.authTagRow {
+	margin-top: 12px;
+}
+
+.authTagRow :global(span[aria-describedby]) {
+	display: flex;
+	flex-direction: column;
+	padding: 6px 0;
+	gap: 12px;
+}
+
+.text-red {
+	color: red;
+}
+
+.authTagRow :global(.ant-tag) {
+	width: fit-content;
+}
