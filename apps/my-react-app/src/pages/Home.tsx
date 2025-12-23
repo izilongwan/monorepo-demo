@@ -1,0 +1,230 @@
+import { fetchGithubUser, refreshAuthorityToken } from '@/apis/user-auth';
+import AuthTagPopover from '@/components/auth-tag-popover';
+import { useUserStore } from '@/stores';
+import style from '@/styles/modules/Home.module.css';
+import { tokenUtil } from '@/utils/tokenUtil';
+import {
+	BgColorsOutlined,
+	CodeOutlined,
+	HomeOutlined,
+	InfoCircleOutlined,
+	LogoutOutlined,
+	UserOutlined
+} from '@ant-design/icons';
+import { Avatar, Button, Dropdown, Layout, Menu, message, Space } from 'antd';
+import { useEffect, useMemo, useState } from 'react';
+import { Link, Outlet, useLocation } from 'react-router-dom';
+
+const { Header, Sider, Content } = Layout;
+
+function Home() {
+	const [loginLoading, setLoginLoading] = useState(false);
+
+	const menuItems = useMemo(
+		() => [
+			{
+				key: 'main',
+				icon: <HomeOutlined />,
+				label: (
+					<Link to="main" className={style.menuLink}>
+						主页
+					</Link>
+				)
+			},
+			{
+				key: 'api-code',
+				icon: <CodeOutlined />,
+				label: (
+					<Link to="api-code" className={style.menuLink}>
+						API 列表
+					</Link>
+				)
+			},
+			{
+				key: 'user-management',
+				icon: <UserOutlined />,
+				label: (
+					<Link to="user-management" className={style.menuLink}>
+						用户管理
+					</Link>
+				)
+			},
+			{
+				key: 'notfound',
+				icon: <BgColorsOutlined />,
+				label: (
+					<Link to="xxx?show-return-btn=0" className={style.menuLink}>
+						404 测试
+					</Link>
+				)
+			},
+			{
+				key: 'about',
+				icon: <InfoCircleOutlined />,
+				label: (
+					<Link to="about" className={style.menuLink}>
+						关于
+					</Link>
+				)
+			}
+		],
+		[]
+	);
+
+	const location = useLocation();
+
+	const setUser = useUserStore((state) => state.setUser);
+	const user = useUserStore((state) => state.user);
+
+	useEffect(() => {
+		handleLogin();
+	}, []);
+
+	// 模拟登录
+	const handleLogin = async () => {
+		setLoginLoading(true);
+		try {
+			const userData = await fetchGithubUser().promise;
+			setUser(userData);
+			const info = await refreshAuthorityToken().promise;
+			if (info) {
+				tokenUtil.setAccessToken(info.accessToken);
+				tokenUtil.setRefreshToken(info.refreshToken);
+				setUser({
+					...userData,
+					authorities: info.authorities
+				});
+				message.success('权限刷新啦！');
+			}
+			message.success('登录成功');
+		} finally {
+			setLoginLoading(false);
+		}
+	};
+
+	// 登出
+	const handleLogout = () => {
+		setUser(null);
+		tokenUtil.clearTokens();
+		message.success('已登出');
+	};
+
+	// 根据路径获取当前菜单 key
+	const getCurrentMenuKey = useMemo(() => {
+		const path = location.pathname;
+		if (path.endsWith('api-code')) return 'api-code';
+		if (path.endsWith('user-management')) return 'user-management';
+		if (path.endsWith('about')) return 'about';
+		if (path.endsWith('main') || path === '/home') return 'main';
+		return 'notfound';
+	}, [location.pathname]);
+
+	const authorities = useMemo(() => {
+		return (user?.authorities || []).map((auth, index) => ({
+			id: index,
+			name: auth,
+			description: `权限标识: ${auth}`,
+			color: 'blue'
+		}));
+	}, [user?.authorities]);
+
+	return (
+		<Layout className={style.homeLayout}>
+			<Header className={style.homeHeader}>
+				<div className={style.logo}>
+					<Link to="/" className={style.logoLink}>
+						📱 App Dashboard
+					</Link>
+				</div>
+				<div style={{ flex: 1 }} />
+				{user ? (
+					<Dropdown
+						menu={{
+							items: [
+								{
+									key: 'profile',
+									icon: <UserOutlined />,
+									label: (
+										<div className={style.userProfile}>
+											<div className={style.userProfileUsername}>
+												{user.loginUsername}
+											</div>
+											<div className={style.userProfileItem}>
+												<span className={style.userProfileLabel}>ID:</span>
+												<span className={style.userProfileValue}>
+													{user.id}
+												</span>
+											</div>
+											<div className={style.userProfileItem}>
+												<span className={style.userProfileLabel}>
+													注册时间:
+												</span>
+												<span className={style.userProfileValue}>
+													{user.createTime}
+												</span>
+											</div>
+											<div className={style.userProfileItem}>
+												<span className={style.userProfileLabel}>
+													最后更新:
+												</span>
+												<span className={style.userProfileValue}>
+													{user.updateTime}
+												</span>
+											</div>
+											<div className={style.userProfilePermissions}>
+												<span className={style.userProfilePermissionsLabel}>
+													权限:
+												</span>
+												<div className={style.userProfilePermissionsTags}>
+													<AuthTagPopover auths={authorities} />
+												</div>
+											</div>
+										</div>
+									),
+									disabled: true
+								},
+								{
+									type: 'divider'
+								},
+								{
+									key: 'logout',
+									icon: <LogoutOutlined />,
+									label: '登出',
+									onClick: handleLogout
+								}
+							]
+						}}
+						placement="bottomRight">
+						<Space style={{ cursor: 'pointer' }}>
+							<span style={{ color: '#fff' }}>{user.loginUsername}</span>
+							<Avatar src={user.avatarUrl} />
+						</Space>
+					</Dropdown>
+				) : (
+					<Button type="primary" loading={loginLoading} onClick={handleLogin}>
+						登录
+					</Button>
+				)}
+			</Header>
+
+			<Layout>
+				<Sider width={200} className={style.sider}>
+					<Menu
+						mode="inline"
+						selectedKeys={[getCurrentMenuKey]}
+						className={style.menu}
+						items={menuItems}
+					/>
+				</Sider>
+
+				<Content className={style.content}>
+					<div className={style.contentInner}>
+						<Outlet />
+					</div>
+				</Content>
+			</Layout>
+		</Layout>
+	);
+}
+
+export default Home;
