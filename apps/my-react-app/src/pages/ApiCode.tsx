@@ -340,7 +340,11 @@ export default function ApiCodePage() {
 		filters: CommonObjectType,
 		sorter: CommonObjectType
 	) => {
-		setPagination(pagination);
+		setPagination((prev) => ({
+			...prev,
+			current: pagination.current,
+			pageSize: pagination.pageSize
+		}));
 		setFilterObj(formatTableFilter(filters));
 	};
 
