@@ -1,0 +1,34 @@
+{
+  "name": "@monorepo-demo/u1",
+  "version": "1.0.0",
+  "description": "Math utility library",
+  "main": "dist/u1.cjs",
+  "type": "module",
+  "module": "dist/u1.es.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/u1.es.js",
+      "require": "./dist/u1.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "vite": "vite",
+    "vite:build": "vite build && tsc --emitDeclarationOnly --outDir dist",
+    "dev": "node --loader ts-node/esm index.ts",
+    "dev:compile": "tsc index.ts --target ES2020 --module commonjs && node index.js && rm index.js",
+    "build": "tsc --target ES2020 --declaration --outDir dist",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "math",
+    "utils"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@monorepo-demo/u2": "workspace:^",
+    "@monorepo-demo/u3": "workspace:^"
+  }
+}

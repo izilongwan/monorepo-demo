@@ -1,0 +1,27 @@
+{
+  "name": "@monorepo-demo/u3",
+  "version": "1.0.0",
+  "description": "Math utility library - minus function",
+  "type": "module",
+  "main": "dist/u3.cjs",
+  "module": "dist/u3.es.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/u3.es.js",
+      "require": "./dist/u3.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "vite:build": "vite build && tsc --emitDeclarationOnly --outDir dist",
+    "build": "tsc --target ES2020 --declaration --outDir dist",
+    "dev": "node --loader ts-node/esm index.ts"
+  },
+  "keywords": [
+    "math",
+    "utils"
+  ],
+  "author": "",
+  "license": "ISC"
+}

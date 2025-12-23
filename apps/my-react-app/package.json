@@ -1,0 +1,27 @@
+{
+  "name": "@monorepo-demo/my-react-app",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite --mode test",
+    "build": "tsc && vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "@monorepo-demo/u1": "workspace:^",
+    "@tsparticles/engine": "^3.9.1",
+    "@tsparticles/preset-stars": "^3.2.0",
+    "@tsparticles/react": "^3.0.0",
+    "@tsparticles/slim": "^3.9.1",
+    "antd": "^5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.20.0",
+    "zustand": "^5.0.9"
+  },
+  "devDependencies": {
+    "@ant-design/icons": "^6.1.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.2.0"
+  }
+}

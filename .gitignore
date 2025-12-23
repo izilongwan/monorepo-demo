@@ -1,0 +1,8 @@
+**/node_modules
+.vscode
+**/dist
+apps/my-react-app/certs/cert.pem
+apps/my-react-app/certs/key.pem
+.DS_Store
+dist-ssr
+*.local

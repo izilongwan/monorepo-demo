@@ -1,0 +1,20 @@
+{
+  "name": "@monorepo-demo/root",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev:my-vue-app": "pnpm -F @monorepo-demo/my-vue-app dev",
+    "dev:react-app": "pnpm -F @monorepo-demo/my-react-app dev",
+    "build:react-app": "pnpm -F @monorepo-demo/my-react-app build",
+    "build:my-vue-app": "pnpm -F @monorepo-demo/my-vue-app build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "10.9.0",
+    "typescript": "^5.9.3",
+    "vite": "6.4.1"
+  },
+  "description": ""
+}
