@@ -1,14 +1,10 @@
 import {
 	addApiCode,
 	deleteApiCode,
-	getApiCodePageList,
+	getApiCodePageList2,
 	updateApiCode
 } from '@/apis/apicode';
-import {
-	createFilterDropdown,
-	createFilterFnAdvanced,
-	createFilterIcon
-} from '@/components/filter';
+import { createFilterDropdown, createFilterIcon } from '@/components/filter';
 import { useUserStore } from '@/stores';
 import { API_CODE_STATE } from '@/types/apicode';
 import { ApiCode } from '@/types/apicode.d';
@@ -77,7 +73,9 @@ export default function ApiCodePage() {
 		setLoading(true);
 		const { current, pageSize } = pagination;
 
-		getApiCodePageList(current!, pageSize!, filterObj)
+		getApiCodePageList2(current!, pageSize!, {
+			param: { __filter: filterObj }
+		})
 			.promise.then((response) => {
 				setData(formatListWithIndex(response?.records, current, pageSize));
 				setPagination((prev) => ({

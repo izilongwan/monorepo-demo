@@ -34,6 +34,19 @@ export function getApiCodePageList(
 	);
 }
 
+export function getApiCodePageList2(
+	pageNum: number,
+	pageSize: number,
+	data: Partial<ApiCodeQueryParams> = {}
+) {
+	return getCommonPage<ApiCode>({
+		...data,
+		apiCode: 'GET_API_CODE',
+		pageIndex: pageNum,
+		pageSize: pageSize
+	});
+}
+
 export function deleteApiCode(ids: number[]) {
 	return httpClient.delete<boolean>(`${API_CODE_HOST}/delete/${ids.join(',')}`);
 }
