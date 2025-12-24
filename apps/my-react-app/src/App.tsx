@@ -7,8 +7,8 @@ export default () => {
 
 	useEffect(() => {
 		if (tokenUtil.parseTokenFromUrl()) {
-			params.delete('access_token');
-			params.delete('refresh_token');
+			params.delete(tokenUtil.access_token);
+			params.delete(tokenUtil.refresh_token);
 			setSearchParams({ ...params });
 		}
 	}, []);
