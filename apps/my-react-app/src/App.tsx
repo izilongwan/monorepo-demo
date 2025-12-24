@@ -9,7 +9,7 @@ export default () => {
 		if (tokenUtil.parseTokenFromUrl()) {
 			params.delete(tokenUtil.access_token);
 			params.delete(tokenUtil.refresh_token);
-			setSearchParams({ ...params });
+			setSearchParams(Object.fromEntries(params.entries()));
 		}
 	}, []);
 
