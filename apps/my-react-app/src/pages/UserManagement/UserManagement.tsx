@@ -45,7 +45,7 @@ import {
 import { createTabItems } from './tabs';
 import { UserManagementModal } from './UserManagementModal';
 
-const TABLE_SCROLL_CONFIG = { y: 'calc(100vh - 382px)' };
+const TABLE_SCROLL_CONFIG = { y: 'calc(100vh - 386px)' };
 
 function UserManagement() {
 	const [userRoles, setUserRoles] = useState<UserRole[]>([]);

@@ -246,7 +246,9 @@ export default function ApiCodePage() {
 			filterMultiple: false,
 			filters: API_CODE_STATE_OPTIONS,
 			render: (state: API_CODE_STATE) => (
-				<Tag color={state === API_CODE_STATE.PUBLISH ? 'green' : 'red'}>
+				<Tag
+					bordered={false}
+					color={state === API_CODE_STATE.PUBLISH ? 'green' : 'red'}>
 					{API_CODE_STATE_MAP[state]}
 				</Tag>
 			)
@@ -303,16 +305,26 @@ export default function ApiCodePage() {
 						color={record.state === API_CODE_STATE.PUBLISH ? 'pink' : undefined}
 						icon={
 							record.state === API_CODE_STATE.PUBLISH ? (
-								<CloudDownloadOutlined style={{ color: '#ffa807ff' }} />
+								<CloudDownloadOutlined
+									style={{ color: hasApiUpdateAuth ? '#ffa807ff' : undefined }}
+								/>
 							) : (
-								<CloudUploadOutlined style={{ color: '#52c41aff' }} />
+								<CloudUploadOutlined
+									style={{ color: hasApiUpdateAuth ? '#52c41aff' : undefined }}
+								/>
 							)
 						}
 						onClick={() => handlePublishToggle(record)}>
 						{record.state === API_CODE_STATE.PUBLISH ? (
-							<span style={{ color: '#ffa807ff' }}>禁用</span>
+							<span
+								style={{ color: hasApiUpdateAuth ? '#ffa807ff' : undefined }}>
+								{API_CODE_STATE_MAP[API_CODE_STATE.PUBLISH]}
+							</span>
 						) : (
-							<span style={{ color: '#52c41aff' }}>启用</span>
+							<span
+								style={{ color: hasApiUpdateAuth ? '#52c41aff' : undefined }}>
+								{API_CODE_STATE_MAP[API_CODE_STATE.UNPUBLISH]}
+							</span>
 						)}
 					</Button>
 					<Button
@@ -414,8 +426,8 @@ export default function ApiCodePage() {
 							name="state"
 							rules={[{ required: true, message: '请选择状态' }]}>
 							<Switch
-								checkedChildren="启用"
-								unCheckedChildren="禁用"
+								checkedChildren={API_CODE_STATE_MAP[API_CODE_STATE.PUBLISH]}
+								unCheckedChildren={API_CODE_STATE_MAP[API_CODE_STATE.UNPUBLISH]}
 								defaultChecked={
 									form.getFieldValue('state') === API_CODE_STATE.PUBLISH
 								}
