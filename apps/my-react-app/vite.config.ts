@@ -15,6 +15,19 @@ export default defineConfig({
     // }),
     // componentAutoImport({ resolvers: [AntdResolver()] })
   ],
+  build: {
+    outDir: 'dist',
+    entry: './src/main.tsx',
+    rollupOptions: {
+      // 确保外部化处理那些你不想打包进库的依赖
+      external: [],
+      output: {
+        globals: {
+          // 如果有外部依赖，在这里添加全局变量名称
+        },
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': '/src',

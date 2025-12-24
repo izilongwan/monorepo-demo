@@ -367,7 +367,7 @@ export default function ApiCodePage() {
 				loading={loading}
 				pagination={pagination}
 				onChange={handleTableChange}
-				scroll={{ x: 1200, y: 'calc(100vh - 326px)' }}
+				scroll={{ x: 1200, y: 'calc(100vh - 328px)' }}
 			/>
 
 			<Modal
