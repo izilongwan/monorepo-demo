@@ -200,7 +200,7 @@ class HttpClient {
 	async redirectGithubLoginAuthorization(response: Response): Promise<void> {
 		const isOk = await setRedirectUrl().promise;
 		const res = await response.json();
-		isOk && window.open(res?.data, '_blank');
+		isOk && location.replace(res.data);
 		throw new Error('Unauthorized. Redirecting to login.');
 	}
 
