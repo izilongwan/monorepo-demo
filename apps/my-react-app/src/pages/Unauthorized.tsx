@@ -1,3 +1,4 @@
+import SkeletonCommon from '@/components/skeleton-common';
 import { useUserStore } from '@/stores';
 import { USER_AUTHORITITY } from '@/types/user-auth';
 import { Button, message, Result } from 'antd';
@@ -21,6 +22,10 @@ export default function UnauthorizedPage(
 			message.info('您没有访问该页面的权限');
 		}
 	}, [props.needTip, props.permission]);
+
+	if (!userStore) {
+		return <SkeletonCommon />;
+	}
 
 	return userStore?.authorities.includes(props.permission) ? (
 		props.children

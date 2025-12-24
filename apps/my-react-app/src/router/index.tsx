@@ -1,6 +1,6 @@
+import SkeletonCommon from '@/components/skeleton-common';
 import { useUserStore } from '@/stores';
 import { USER_AUTHORITITY } from '@/types/user-auth';
-import { Skeleton } from 'antd';
 import { lazy, memo, Suspense } from 'react';
 import { Navigate, RouteObject } from 'react-router-dom';
 
@@ -41,14 +41,7 @@ function LazyLoadComponent(
 	};
 
 	return (
-		<Suspense
-			fallback={
-				<div style={{ padding: '20px' }}>
-					<Skeleton active />
-					<Skeleton active />
-					<Skeleton.Button active style={{ width: 200, marginTop: 16 }} />
-				</div>
-			}>
+		<Suspense fallback={<SkeletonCommon />}>
 			<AuthComponent />
 		</Suspense>
 	);

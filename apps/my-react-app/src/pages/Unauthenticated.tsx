@@ -1,4 +1,5 @@
 import { fetchGithubUser } from '@/apis/user-auth';
+import SkeletonCommon from '@/components/skeleton-common';
 import { useUserStore } from '@/stores';
 import { USER_AUTHORITITY } from '@/types/user-auth';
 import { Button, message, Result } from 'antd';
@@ -17,6 +18,10 @@ export default function UnauthenticatedPage(props: UnauthenticatedPageProps) {
 			message.info('请先登录以访问该页面');
 		}
 	}, [props.needTip]);
+
+	if (!userStore) {
+		return <SkeletonCommon />;
+	}
 
 	return userStore?.authorities.includes(USER_AUTHORITITY.USER) ? (
 		props.children
