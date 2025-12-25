@@ -125,7 +125,7 @@ export const UserManagementModal = ({
 									options={commonData?.roles.map((role) => ({
 										label: `${role.roleName} [${role.roleType}]`,
 										value: role.roleId,
-										disabled: role.roleType === ROLE_TYPE.SYSTEM
+										disabled: role.roleName === USER_AUTHORITITY.ADMIN
 									}))}></Select>
 							)}
 						</Form.Item>

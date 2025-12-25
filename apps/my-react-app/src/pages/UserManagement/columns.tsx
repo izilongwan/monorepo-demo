@@ -55,22 +55,18 @@ const renderActionColumn = (
 		USER_MANAGEMENT_TYPE.ROLE
 	].includes(config.currentTabType);
 
-	const isRoleAdmin = config.userStore.authorities.includes(
-		USER_AUTHORITITY.ADMIN
-	);
-
-	const isSystemRole = isRolePermissionType
-		? (record as Role).roleType === ROLE_TYPE.SYSTEM
+	const isRecordAdmin = isRolePermissionType
+		? (record as Role).roleName === USER_AUTHORITITY.ADMIN
 		: false;
 
 	const isCreator = config.userStore.loginUsername === record.createUser;
 
-	const hasEditAuth: boolean = isSystemRole
-		? isRoleAdmin
+	const hasEditAuth: boolean = isRecordAdmin
+		? false
 		: isCreator || hasAuth(config.authInfo.update);
 	let hasDeleteAuth: boolean = isCreator || hasAuth(config.authInfo.delete);
 
-	if (isSystemRole) {
+	if (isRecordAdmin) {
 		hasDeleteAuth = false;
 	} else if (hasDeleteAuth) {
 		if (config.currentTabType === USER_MANAGEMENT_TYPE.USER_ROLE) {

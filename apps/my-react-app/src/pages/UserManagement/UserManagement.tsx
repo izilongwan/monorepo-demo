@@ -178,7 +178,7 @@ function UserManagement() {
 
 		if (userRoleItem?.userId) {
 			map.id = userRoleItem.userId;
-			const roles = mapToAuthTag(userRoleItem.roles, {
+			const roles = mapToAuthTag(userRoleItem?.roles ?? [], {
 				id: 'roleId',
 				name: 'roleName',
 				description: 'roleDescription',
@@ -231,7 +231,7 @@ function UserManagement() {
 
 		if (rolePermissionItem?.roleId) {
 			map.id = rolePermissionItem.roleId;
-			const permissions = mapToAuthTag(rolePermissionItem.permissions, {
+			const permissions = mapToAuthTag(rolePermissionItem?.permissions || [], {
 				id: 'permissionId',
 				name: 'permissionName',
 				description: 'permissionDescription',
