@@ -16,7 +16,7 @@ import {
 	Select,
 	Tag
 } from 'antd';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 export interface UserManagementModalProps {
 	isModalVisible: boolean;
@@ -45,8 +45,6 @@ export const UserManagementModal = ({
 	authInfo,
 	onPermissionTypeChange
 }: UserManagementModalProps) => {
-	const [roleInputValue, setRoleInputValue] = useState<string>('');
-
 	// 通用 Select 搜索过滤函数
 	const commonFilterOption = (input: string, option: any) =>
 		(option?.label ?? '').toLowerCase().includes(input.toLowerCase());
