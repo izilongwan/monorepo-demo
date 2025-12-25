@@ -18,8 +18,6 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 const { Header, Sider, Content } = Layout;
 
 function Home() {
-	const [loginLoading, setLoginLoading] = useState(false);
-
 	const menuItems = useMemo(
 		() => [
 			{
@@ -73,11 +71,15 @@ function Home() {
 
 	const location = useLocation();
 
-	const setUser = useUserStore((state) => state.setUser);
 	const user = useUserStore((state) => state.user);
+	const setUser = useUserStore((state) => state.setUser);
+	const loginLoading = useUserStore((state) => state.loginLoading);
+	const setLoginLoading = useUserStore((state) => state.setLoginLoading);
 
 	useEffect(() => {
-		handleLogin();
+		if (tokenUtil.getAccessToken()) {
+			handleLogin();
+		}
 	}, []);
 
 	// 模拟登录

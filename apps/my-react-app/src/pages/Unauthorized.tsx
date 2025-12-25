@@ -16,6 +16,7 @@ export default function UnauthorizedPage(
 ): JSX.Element {
 	const navigate = useNavigate();
 	const userStore = useUserStore((state) => state.user);
+	const loginLoading = useUserStore((state) => state.loginLoading);
 
 	useEffect(() => {
 		if (props.needTip) {
@@ -23,7 +24,7 @@ export default function UnauthorizedPage(
 		}
 	}, [props.needTip, props.permission]);
 
-	if (!userStore) {
+	if (loginLoading) {
 		return <SkeletonCommon />;
 	}
 
