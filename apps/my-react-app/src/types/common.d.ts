@@ -10,6 +10,11 @@ export interface CreateUpdateTime {
 	updateTime: string;
 }
 
+export interface CreateUpdateUser {
+	createUser: string;
+	updateUser: string;
+}
+
 export type CommonObjectType = Record<string, any>;
 
 export type CommonFunctionType<T = any> = (...args: any[]) => T;

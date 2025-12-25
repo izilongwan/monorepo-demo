@@ -1,8 +1,13 @@
-import { CommonObjectType, CreateUpdateTime, Loadings } from './common';
 import { API_CODE_OUTPUT } from './apicode';
+import {
+	CommonObjectType,
+	CreateUpdateTime,
+	CreateUpdateUser,
+	Loadings
+} from './common';
 import { USER_AUTHORITITY } from './user-auth';
 
-export interface ApiCode extends Loadings, CreateUpdateTime {
+export interface ApiCode extends Loadings, CreateUpdateTime, CreateUpdateUser {
 	apiCode: string;
 	output: string;
 	deleted: number;
@@ -14,17 +19,18 @@ export interface ApiCode extends Loadings, CreateUpdateTime {
 	updateAuth: USER_AUTHORITITY;
 	createAuth: USER_AUTHORITITY;
 	queryAuth: USER_AUTHORITITY;
+	publishAuth: USER_AUTHORITITY;
 }
 
 export interface ApiCodeQueryParams {
-  apiCode: string;
-  param?: CommonObjectType;
-  pageIndex?: number;
-  pageSize?: number;
-  output?: API_CODE_OUTPUT;
+	apiCode: string;
+	param?: CommonObjectType;
+	pageIndex?: number;
+	pageSize?: number;
+	output?: API_CODE_OUTPUT;
 }
 
 export interface PageApiCodeResult<T> {
-  records: T[];
-  total: number;
+	records: T[];
+	total: number;
 }

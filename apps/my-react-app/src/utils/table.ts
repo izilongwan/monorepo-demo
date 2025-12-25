@@ -1,3 +1,4 @@
+import { createFilterDropdown, createFilterIcon } from '@/components/filter';
 import { SortOrder } from 'antd/es/table/interface';
 
 export const TABLE_COLUMN_MAP = {
@@ -18,5 +19,27 @@ export const TABLE_COLUMN_MAP = {
 		width: 180,
 		sorter: true,
 		sortDirections: ['descend', 'ascend'] as SortOrder[]
+	},
+	CREATE_USER: {
+		title: '创建人',
+		dataIndex: 'createUser',
+		key: 'createUser',
+		ellipsis: true,
+		width: 150
+		// filterDropdown: createFilterDropdown({
+		// 	placeholder: '搜索创建人'
+		// }),
+		// filterIcon: createFilterIcon()
+	},
+	UPDATE_USER: {
+		title: '更新人',
+		dataIndex: 'updateUser',
+		key: 'updateUser',
+		ellipsis: true,
+		width: 150
+		// filterDropdown: createFilterDropdown({
+		// 	placeholder: '搜索更新人'
+		// }),
+		// filterIcon: createFilterIcon()
 	}
 };

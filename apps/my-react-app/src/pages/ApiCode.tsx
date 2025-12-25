@@ -17,6 +17,7 @@ import {
 	INITIAL_PAGINATION,
 	OUTPUT_OPTIONS
 } from '@/utils/const';
+import { TABLE_COLUMN_MAP } from '@/utils/table';
 import {
 	formatListWithIndex,
 	formatTableFilter,
@@ -59,22 +60,19 @@ export default function ApiCodePage() {
 	const hasApiCreateAuth = user?.authorities.includes(
 		USER_AUTHORITITY['API_CODE:CREATE']
 	);
-	const hasApiUpdateAuth = user?.authorities.includes(
-		USER_AUTHORITITY['API_CODE:UPDATE']
-	);
-	const hasApiDeleteAuth = user?.authorities.includes(
-		USER_AUTHORITITY['API_CODE:DELETE']
+	const hasPublishAuth = user?.authorities.includes(
+		editingRecord?.publishAuth!
 	);
 
 	const [form] = Form.useForm();
 
 	// 获取数据，支持分页
-	const fetchData = () => {
+	const fetchData = (param = {}) => {
 		setLoading(true);
 		const { current, pageSize } = pagination;
 
 		getApiCodePageList2(current!, pageSize!, {
-			param: { __filter: filterObj }
+			param: { __filter: filterObj, ...param }
 		})
 			.promise.then((response) => {
 				setData(formatListWithIndex(response?.records, current, pageSize));
@@ -92,7 +90,7 @@ export default function ApiCodePage() {
 
 	useEffect(freshData, [pagination.pageSize]);
 
-	function freshData() {
+	function freshData(param = {}) {
 		if (pagination.current !== INITIAL_PAGINATION.current) {
 			setPagination((prev) => ({
 				...prev,
@@ -100,7 +98,7 @@ export default function ApiCodePage() {
 			}));
 			return;
 		}
-		fetchData();
+		fetchData(param);
 	}
 
 	// 打开编辑模态框
@@ -133,7 +131,7 @@ export default function ApiCodePage() {
 
 			if (updated) {
 				message.success(messageText);
-				freshData();
+				freshData({ now: Date.now() });
 				setIsModalVisible(false);
 			}
 		} finally {
@@ -163,6 +161,7 @@ export default function ApiCodePage() {
 		if (isOk) {
 			record.state = newState;
 			message.info(API_CODE_STATE_MAP[newState] + '成功');
+			freshData({ now: Date.now() });
 		}
 		record.fetchLoading = false;
 		setData([...data]);
@@ -262,86 +261,103 @@ export default function ApiCodePage() {
 			})),
 			filterMultiple: false
 		},
-		{
-			title: '创建时间',
-			dataIndex: 'createTime',
-			key: 'createTime',
-			width: 180
-		},
-		{
-			title: '更新时间',
-			dataIndex: 'updateTime',
-			key: 'updateTime',
-			width: 180
-		},
+		TABLE_COLUMN_MAP.CREATE_USER,
+		TABLE_COLUMN_MAP.UPDATE_USER,
+		TABLE_COLUMN_MAP.CREATE_TIME,
+		TABLE_COLUMN_MAP.UPDATE_TIME,
 		{
 			title: '操作',
 			key: 'action',
 			width: 250,
 			fixed: 'right',
-			render: (_, record) => (
-				<Space>
-					<Button
-						type="text"
-						size="small"
-						icon={<EditOutlined />}
-						disabled={!hasApiUpdateAuth}
-						title={
-							hasApiUpdateAuth
-								? '编辑'
-								: noAuthTip(USER_AUTHORITITY['API_CODE:UPDATE'])
-						}
-						loading={record.editLoading}
-						onClick={() => handleEdit(record)}>
-						编辑
-					</Button>
-					<Button
-						type="text"
-						size="small"
-						loading={record.fetchLoading}
-						disabled={!hasApiUpdateAuth}
-						color={record.state === API_CODE_STATE.PUBLISH ? 'pink' : undefined}
-						icon={
-							record.state === API_CODE_STATE.PUBLISH ? (
-								<CloudDownloadOutlined
-									style={{ color: hasApiUpdateAuth ? '#ffa807ff' : undefined }}
-								/>
+			render: (_, record) => {
+				const authorities = user?.authorities || [];
+				const isCreator = user?.loginUsername === record.createUser;
+				const hasAuth = (auth: USER_AUTHORITITY) => authorities.includes(auth);
+				const hasApiUpdateAuth =
+					isCreator ||
+					[record.updateAuth, USER_AUTHORITITY['API_CODE:UPDATE']].some(
+						hasAuth
+					);
+				const hasApiDeleteAuth =
+					isCreator ||
+					[record.deleteAuth, USER_AUTHORITITY['API_CODE:DELETE']].some(
+						hasAuth
+					);
+				const hasPublishAuth = [
+					record.publishAuth,
+					USER_AUTHORITITY['API_CODE:PUBLISH']
+				].some(hasAuth);
+				return (
+					<Space>
+						<Button
+							type="text"
+							size="small"
+							icon={<EditOutlined />}
+							disabled={!hasApiUpdateAuth}
+							title={
+								hasApiUpdateAuth
+									? '编辑'
+									: noAuthTip(USER_AUTHORITITY['API_CODE:UPDATE'])
+							}
+							loading={record.editLoading}
+							onClick={() => handleEdit(record)}>
+							编辑
+						</Button>
+						<Button
+							type="text"
+							size="small"
+							loading={record.fetchLoading}
+							disabled={!hasPublishAuth}
+							color={
+								record.state === API_CODE_STATE.PUBLISH ? 'pink' : undefined
+							}
+							icon={
+								record.state === API_CODE_STATE.PUBLISH ? (
+									<CloudDownloadOutlined
+										style={{
+											color: hasPublishAuth ? '#ffa807ff' : undefined
+										}}
+									/>
+								) : (
+									<CloudUploadOutlined
+										style={{
+											color: hasPublishAuth ? '#52c41aff' : undefined
+										}}
+									/>
+								)
+							}
+							onClick={() => handlePublishToggle(record)}>
+							{record.state === API_CODE_STATE.PUBLISH ? (
+								<span
+									style={{ color: hasPublishAuth ? '#ffa807ff' : undefined }}>
+									{API_CODE_STATE_MAP[API_CODE_STATE.UNPUBLISH]}
+								</span>
 							) : (
-								<CloudUploadOutlined
-									style={{ color: hasApiUpdateAuth ? '#52c41aff' : undefined }}
-								/>
-							)
-						}
-						onClick={() => handlePublishToggle(record)}>
-						{record.state === API_CODE_STATE.PUBLISH ? (
-							<span
-								style={{ color: hasApiUpdateAuth ? '#ffa807ff' : undefined }}>
-								{API_CODE_STATE_MAP[API_CODE_STATE.PUBLISH]}
-							</span>
-						) : (
-							<span
-								style={{ color: hasApiUpdateAuth ? '#52c41aff' : undefined }}>
-								{API_CODE_STATE_MAP[API_CODE_STATE.UNPUBLISH]}
-							</span>
-						)}
-					</Button>
-					<Button
-						type="text"
-						danger
-						size="small"
-						loading={record.deleteLoading}
-						icon={<DeleteOutlined />}
-						disabled={!hasApiDeleteAuth}
-						title={
-							hasApiDeleteAuth
-								? '删除'
-								: noAuthTip(USER_AUTHORITITY['API_CODE:DELETE'])
-						}
-						onClick={() => handleDelete(record)}>
-						删除
-					</Button>
-				</Space>
-			)
+								<span
+									style={{ color: hasPublishAuth ? '#52c41aff' : undefined }}>
+									{API_CODE_STATE_MAP[API_CODE_STATE.PUBLISH]}
+								</span>
+							)}
+						</Button>
+						<Button
+							type="text"
+							danger
+							size="small"
+							loading={record.deleteLoading}
+							icon={<DeleteOutlined />}
+							disabled={!hasApiDeleteAuth}
+							title={
+								hasApiDeleteAuth
+									? '删除'
+									: noAuthTip(USER_AUTHORITITY['API_CODE:DELETE'])
+							}
+							onClick={() => handleDelete(record)}>
+							删除
+						</Button>
+					</Space>
+				);
+			}
 		}
 	];
 
@@ -426,6 +442,7 @@ export default function ApiCodePage() {
 							<Switch
 								checkedChildren={API_CODE_STATE_MAP[API_CODE_STATE.PUBLISH]}
 								unCheckedChildren={API_CODE_STATE_MAP[API_CODE_STATE.UNPUBLISH]}
+								disabled={!hasPublishAuth}
 								defaultChecked={
 									form.getFieldValue('state') === API_CODE_STATE.PUBLISH
 								}
