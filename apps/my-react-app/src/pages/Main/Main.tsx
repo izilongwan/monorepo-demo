@@ -11,6 +11,7 @@ import {
 import { Button, Card, Col, Row, Space, Statistic, Tag, Timeline } from 'antd';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Trends from './Trend';
 
 export default function Main() {
 	const [stats, setStats] = useState<typeof statsData>([]);
@@ -19,7 +20,7 @@ export default function Main() {
 	const statsData = useMemo(
 		() => [
 			{
-				type: 'api_code',
+				type: 'apiCode',
 				title: 'API 接口',
 				value: 0,
 				icon: <CodeOutlined />,
@@ -157,12 +158,6 @@ export default function Main() {
 			<Card className={style.welcomeCard}>
 				<h1 className={style.title}>欢迎来到 App Dashboard</h1>
 				<p className={style.subtitle}>这是一个现代化的前端应用管理系统</p>
-				<Space>
-					<Button type="primary" size="large">
-						开始使用
-					</Button>
-					<Button size="large">了解更多</Button>
-				</Space>
 			</Card>
 
 			{/* 统计数据 */}
@@ -193,6 +188,8 @@ export default function Main() {
 					</Col>
 				))}
 			</Row>
+
+			<Trends statsData={statsData} />
 
 			{/* 功能特性 */}
 			<div style={{ marginTop: '40px' }}>

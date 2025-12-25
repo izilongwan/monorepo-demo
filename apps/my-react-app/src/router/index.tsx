@@ -1,5 +1,4 @@
 import SkeletonCommon from '@/components/skeleton-common';
-import { useUserStore } from '@/stores';
 import { USER_AUTHORITITY } from '@/types/user-auth';
 import { lazy, memo, Suspense } from 'react';
 import { Navigate, RouteObject } from 'react-router-dom';
@@ -72,7 +71,7 @@ export const routes: RouteObject[] = [
 					{
 						path: 'main',
 						element: LazyLoadComponent(
-							'../pages/Main',
+							'../pages/Main/Main',
 							{},
 							USER_AUTHORITITY.USER
 						)
