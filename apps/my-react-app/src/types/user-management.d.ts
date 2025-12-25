@@ -1,12 +1,13 @@
 import { RequestResult } from '@/utils/request';
 import { ReactElement } from 'react';
-import { ApiCode, PageApiCodeResult } from './apicode.d';
+import { PageApiCodeResult } from './apicode.d';
 import {
 	CommonFunctionType,
 	CreateUpdateTime,
 	FilterItem,
-	Loadings
-} from './common';
+	Loadings,
+	CreateUpdateUser
+} from './common.d';
 import { USER_AUTHORITITY } from './user-auth';
 import { PERMISSION_TYPE } from './user-management';
 
@@ -25,7 +26,7 @@ interface User extends Loadings, CreateUpdateTime {
 	userName: string;
 }
 
-interface Role extends CreateUpdateTime, Loadings {
+interface Role extends CreateUpdateTime, Loadings, CreateUpdateUser {
 	roleName: string;
 	roleResource: string;
 	roleId: number;
@@ -55,6 +56,7 @@ export interface RolePermission extends Partial<Role>, Partial<Permission> {
 export interface Permission
 	extends ApiCodePermisson,
 		CreateUpdateTime,
+		CreateUpdateUser,
 		Loadings {
 	permissionDescription: string;
 	permissionId: number;

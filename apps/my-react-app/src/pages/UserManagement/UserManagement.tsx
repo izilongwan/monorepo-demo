@@ -422,7 +422,7 @@ function UserManagement() {
 					remove(record)
 						.promise.then((effectNum) => {
 							if (effectNum) {
-								message.success(`${tip} 删除成功`);
+								message.success(`删除成功`);
 								fetchData({ now: Date.now() });
 							}
 						})
@@ -598,13 +598,14 @@ function UserManagement() {
 		]
 	);
 
-	const hasAddOrEditAuth = useMemo(
-		() =>
-			userStore?.authorities.includes(
-				getCurrentFetchInfo().authInfo[editingItem ? 'update' : 'create']
-			),
-		[userStore, currentTabType, editingItem]
-	);
+	const hasAddOrEditAuth = useMemo(() => {
+		const { create, update } = getCurrentFetchInfo().authInfo;
+		if (editingItem) {
+			const isCreator = userStore?.loginUsername === editingItem.createUser;
+			return isCreator || userStore?.authorities.includes(update);
+		}
+		return userStore?.authorities.includes(create);
+	}, [userStore, currentTabType, editingItem]);
 
 	const handlePermissionTypeChange = (e: any) => {
 		const v = e?.target?.value;

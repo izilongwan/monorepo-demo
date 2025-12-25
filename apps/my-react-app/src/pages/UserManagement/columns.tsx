@@ -57,10 +57,12 @@ const renderActionColumn = (
 		? (record as RolePermission).roleType === ROLE_TYPE.SYSTEM
 		: false;
 
+	const isCreator = config.userStore.loginUsername === record.createUser;
+
 	const hasEditAuth: boolean = isSystemRole
 		? false
-		: hasAuth(config.authInfo.update);
-	let hasDeleteAuth: boolean = hasAuth(config.authInfo.delete);
+		: isCreator || hasAuth(config.authInfo.update);
+	let hasDeleteAuth: boolean = isCreator || hasAuth(config.authInfo.delete);
 
 	if (isSystemRole) {
 		hasDeleteAuth = false;
@@ -98,9 +100,7 @@ const renderActionColumn = (
 	);
 };
 
-export const getUserRoleColumns = (
-	config: ColumnsConfig
-): ColumnType<UserRole>[] => [
+export const getUserRoleColumns = (config: ColumnsConfig): ColumnType<UserRole>[] => [
 	{ title: '#', dataIndex: 'index', key: 'index', fixed: 'left', width: 50 },
 	{
 		title: '用户名称',
@@ -125,6 +125,8 @@ export const getUserRoleColumns = (
 			return <AuthTagPopover auths={auths} />;
 		}
 	},
+	TABLE_COLUMN_MAP.CREATE_USER,
+	TABLE_COLUMN_MAP.UPDATE_USER,
 	TABLE_COLUMN_MAP.CREATE_TIME,
 	TABLE_COLUMN_MAP.UPDATE_TIME,
 	{
@@ -173,6 +175,8 @@ export const getRolePermissionColumns = (
 		width: 120,
 		filters: config.filters.roleTypes
 	},
+	TABLE_COLUMN_MAP.CREATE_USER,
+	TABLE_COLUMN_MAP.UPDATE_USER,
 	TABLE_COLUMN_MAP.CREATE_TIME,
 	TABLE_COLUMN_MAP.UPDATE_TIME,
 	{
@@ -235,6 +239,8 @@ export const getPermissionColumns = (
 		}),
 		filterIcon: createFilterIcon()
 	},
+	TABLE_COLUMN_MAP.CREATE_USER,
+	TABLE_COLUMN_MAP.UPDATE_USER,
 	TABLE_COLUMN_MAP.CREATE_TIME,
 	TABLE_COLUMN_MAP.UPDATE_TIME,
 	{
