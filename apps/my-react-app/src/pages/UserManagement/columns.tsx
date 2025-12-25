@@ -50,17 +50,23 @@ const renderActionColumn = (
 	// prevents changing-size dependency arrays which React warns about.
 	const hasAuth = (auth: USER_AUTHORITITY) =>
 		config.userStore.authorities.includes(auth);
-	const isRolePermissionType =
-		config.currentTabType === USER_MANAGEMENT_TYPE.ROLE_PERMISSION;
+	const isRolePermissionType = [
+		USER_MANAGEMENT_TYPE.ROLE_PERMISSION,
+		USER_MANAGEMENT_TYPE.ROLE
+	].includes(config.currentTabType);
+
+	const isRoleAdmin = config.userStore.authorities.includes(
+		USER_AUTHORITITY.ADMIN
+	);
 
 	const isSystemRole = isRolePermissionType
-		? (record as RolePermission).roleType === ROLE_TYPE.SYSTEM
+		? (record as Role).roleType === ROLE_TYPE.SYSTEM
 		: false;
 
 	const isCreator = config.userStore.loginUsername === record.createUser;
 
 	const hasEditAuth: boolean = isSystemRole
-		? false
+		? isRoleAdmin
 		: isCreator || hasAuth(config.authInfo.update);
 	let hasDeleteAuth: boolean = isCreator || hasAuth(config.authInfo.delete);
 
@@ -100,7 +106,9 @@ const renderActionColumn = (
 	);
 };
 
-export const getUserRoleColumns = (config: ColumnsConfig): ColumnType<UserRole>[] => [
+export const getUserRoleColumns = (
+	config: ColumnsConfig
+): ColumnType<UserRole>[] => [
 	{ title: '#', dataIndex: 'index', key: 'index', fixed: 'left', width: 50 },
 	{
 		title: '用户名称',
@@ -249,5 +257,44 @@ export const getPermissionColumns = (
 		fixed: 'right',
 		width: 170,
 		render: (_: any, record: Permission) => renderActionColumn(record, config)
+	}
+];
+
+export const getRoleColumns = (config: ColumnsConfig): ColumnType<Role>[] => [
+	{ title: '#', dataIndex: 'index', key: 'index', width: 50, fixed: 'left' },
+	{
+		title: '角色名称',
+		dataIndex: 'roleName',
+		key: 'roleIdEnums',
+		fixed: 'left',
+		width: 180,
+		// filters: config.filters.roleIds,
+		ellipsis: true
+	},
+	{
+		title: '角色类型',
+		dataIndex: 'roleType',
+		key: 'roleTypeEnums',
+		ellipsis: true,
+		width: 100,
+		filters: config.filters.roleTypes
+	},
+	{
+		title: '角色描述',
+		dataIndex: 'roleDescription',
+		key: 'roleDescription',
+		width: 150,
+		ellipsis: true
+	},
+	TABLE_COLUMN_MAP.CREATE_USER,
+	TABLE_COLUMN_MAP.UPDATE_USER,
+	TABLE_COLUMN_MAP.CREATE_TIME,
+	TABLE_COLUMN_MAP.UPDATE_TIME,
+	{
+		title: '操作',
+		key: 'action',
+		fixed: 'right',
+		width: 170,
+		render: (_: any, record: Role) => renderActionColumn(record, config)
 	}
 ];

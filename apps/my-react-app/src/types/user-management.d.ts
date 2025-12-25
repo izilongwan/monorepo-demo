@@ -68,7 +68,7 @@ export interface Permission
 	disabled?: boolean;
 }
 
-type UserManagementRowRecord = Permission | UserRole | RolePermission;
+type UserManagementRowRecord = Permission | UserRole | RolePermission | Role;
 
 interface UserManagementCommonDataItem {
 	type: 'user' | 'role' | 'permission';

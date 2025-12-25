@@ -1,15 +1,19 @@
 import {
 	addPermission,
+	addRole,
 	addRolePermission,
 	addUserRole,
 	deletePermission,
+	deleteRole,
 	deleteRolePermission,
 	deleteUserRole,
 	getPermissionPage,
+	getRolePage,
 	getRolePermissionPage,
 	getUserManagementCommonData,
 	getUserRolePage,
 	updatePermission,
+	updateRole,
 	updateRolePermission,
 	updateUserRole
 } from '@/apis/user-management';
@@ -17,11 +21,12 @@ import AuthTagPopover from '@/components/auth-tag-popover';
 import { useUserStore } from '@/stores';
 import styles from '@/styles/modules/UserManagement.module.css';
 import { CommonObjectType } from '@/types/common';
-import { USER_AUTHORITITY } from '@/types/user-auth';
+import { ROLE_TYPE, USER_AUTHORITITY } from '@/types/user-auth';
 import { PERMISSION_TYPE, USER_MANAGEMENT_TYPE } from '@/types/user-management';
 import type {
 	FetchCurrentInfo,
 	Permission,
+	Role,
 	RolePermission,
 	UserManagementCommonData,
 	UserManagementRowRecord,
@@ -39,10 +44,11 @@ import type { TablePaginationConfig } from 'antd/es/table';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
 	getPermissionColumns,
+	getRoleColumns,
 	getRolePermissionColumns,
 	getUserRoleColumns
 } from './columns';
-import { createTabItems } from './tabs';
+import { createTabItems, getUserTypeText } from './tabs';
 import { UserManagementModal } from './UserManagementModal';
 
 const TABLE_SCROLL_CONFIG = { y: 'calc(100vh - 386px)' };
@@ -51,6 +57,7 @@ function UserManagement() {
 	const [userRoles, setUserRoles] = useState<UserRole[]>([]);
 	const [rolePermissions, setRolePermissions] = useState<RolePermission[]>([]);
 	const [permissions, setPermissions] = useState<Permission[]>([]);
+	const [roles, setRoles] = useState<Role[]>([]);
 	const [tableLoading, setTableLoading] = useState(false);
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [editingItem, setEditingItem] =
@@ -320,6 +327,38 @@ function UserManagement() {
 		return map;
 	};
 
+	const handleRoleOperation = (record: Role) => {
+		const map = {} as FetchCurrentInfo;
+		const roleItem = record as Role;
+		if (roleItem?.roleId) {
+			map.id = roleItem.roleId;
+			const resources = [
+				{
+					id: roleItem.roleId,
+					description: roleItem.roleDescription,
+					type: roleItem.roleType,
+					name: roleItem.roleName,
+					color: 'red'
+				}
+			];
+			map.tip = createTip('角色？', roleItem.roleName, resources);
+		}
+
+		map.create = addRole;
+		map.update = updateRole;
+		map.remove = (record: Role) => deleteRole([record.roleId]);
+		map.page = getRolePage;
+		map.openAddAfter = () => {
+			form.setFieldsValue({ roleType: ROLE_TYPE.CUSTOM, ...editingItem });
+		};
+		map.setData = createSetDataHandler(setRoles);
+		map.authInfo = createAuthInfo(
+			'USER_MANAGEMENT.ROLE',
+			USER_AUTHORITITY.USER
+		);
+		return map;
+	};
+
 	const getCurrentFetchInfo = useCallback(
 		(record: UserManagementRowRecord | null = editingItem) => {
 			switch (currentTabType) {
@@ -329,6 +368,8 @@ function UserManagement() {
 					return handleRolePermissionOperation(record as RolePermission);
 				case USER_MANAGEMENT_TYPE.PERMISSION:
 					return handlePermissionOperation(record as Permission);
+				case USER_MANAGEMENT_TYPE.ROLE:
+					return handleRoleOperation(record as Role);
 			}
 		},
 		[currentTabType, editingItem]
@@ -526,6 +567,11 @@ function UserManagement() {
 		[columnsConfig]
 	);
 
+	const roleColumns = useMemo(
+		() => getRoleColumns(columnsConfig),
+		[columnsConfig]
+	);
+
 	function handleModalClose() {
 		setIsModalVisible(false);
 		setEditingItem(null);
@@ -544,7 +590,7 @@ function UserManagement() {
 				[
 					{
 						key: USER_MANAGEMENT_TYPE.USER_ROLE,
-						label: '用户角色管理',
+						label: getUserTypeText(USER_MANAGEMENT_TYPE.USER_ROLE, '', '管理'),
 						type: USER_MANAGEMENT_TYPE.USER_ROLE,
 						columns: userColumns,
 						dataSource: userRoles,
@@ -555,7 +601,11 @@ function UserManagement() {
 					},
 					{
 						key: USER_MANAGEMENT_TYPE.ROLE_PERMISSION,
-						label: '角色权限管理',
+						label: getUserTypeText(
+							USER_MANAGEMENT_TYPE.ROLE_PERMISSION,
+							'',
+							'管理'
+						),
 						type: USER_MANAGEMENT_TYPE.ROLE_PERMISSION,
 						columns: rolePermissionColumns,
 						dataSource: rolePermissions,
@@ -566,11 +616,22 @@ function UserManagement() {
 					},
 					{
 						key: USER_MANAGEMENT_TYPE.PERMISSION,
-						label: '权限管理',
+						label: getUserTypeText(USER_MANAGEMENT_TYPE.PERMISSION, '', '管理'),
 						type: USER_MANAGEMENT_TYPE.PERMISSION,
 						columns: permissionColumns,
 						dataSource: permissions,
 						rowKey: (record: Permission) => record.permissionId,
+						scrollConfig: { ...TABLE_SCROLL_CONFIG, x: 1200 },
+						pagination: tablePagination,
+						setPagination: setTablePagination
+					},
+					{
+						key: USER_MANAGEMENT_TYPE.ROLE,
+						label: getUserTypeText(USER_MANAGEMENT_TYPE.ROLE, '', '管理'),
+						type: USER_MANAGEMENT_TYPE.ROLE,
+						columns: roleColumns,
+						dataSource: roles,
+						rowKey: (record: Role) => record.roleId,
 						scrollConfig: { ...TABLE_SCROLL_CONFIG, x: 1200 },
 						pagination: tablePagination,
 						setPagination: setTablePagination

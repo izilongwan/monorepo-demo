@@ -7,6 +7,7 @@ import {
 	LockOutlined,
 	PlusOutlined,
 	SafetyOutlined,
+	UsergroupAddOutlined,
 	UserOutlined
 } from '@ant-design/icons';
 import type { TablePaginationConfig, TabsProps } from 'antd';
@@ -70,7 +71,7 @@ export const createTabItems = (
 						disabled={!hasAddAuth}
 						title={hasAddAuth ? '添加' : noAuthTip(config.authInfo.create)}
 						onClick={() => config.onOpenAdd()}>
-						{getAddButtonText(tableConfig.type)}
+						{getUserTypeText(tableConfig.type, '添加')}
 					</Button>
 					<div className={styles.tableWrapper}>
 						<Table
@@ -90,16 +91,22 @@ export const createTabItems = (
 	}));
 };
 
-const getAddButtonText = (type: USER_MANAGEMENT_TYPE): string => {
+export const getUserTypeText = (
+	type: USER_MANAGEMENT_TYPE,
+	prefix = '',
+	suffix = ''
+): string => {
 	switch (type) {
 		case USER_MANAGEMENT_TYPE.USER_ROLE:
-			return '添加用户角色';
+			return `${prefix}用户角色${suffix}`;
 		case USER_MANAGEMENT_TYPE.ROLE_PERMISSION:
-			return '添加角色权限';
+			return `${prefix}角色权限${suffix}`;
 		case USER_MANAGEMENT_TYPE.PERMISSION:
-			return '添加权限';
+			return `${prefix}权限${suffix}`;
+		case USER_MANAGEMENT_TYPE.ROLE:
+			return `${prefix}角色${suffix}`;
 		default:
-			return '添加';
+			return `${prefix}${suffix}`;
 	}
 };
 
@@ -111,6 +118,8 @@ const getTabIcon = (type: USER_MANAGEMENT_TYPE) => {
 			return <SafetyOutlined />;
 		case USER_MANAGEMENT_TYPE.PERMISSION:
 			return <LockOutlined />;
+		case USER_MANAGEMENT_TYPE.ROLE:
+			return <UsergroupAddOutlined />;
 		default:
 			return null;
 	}

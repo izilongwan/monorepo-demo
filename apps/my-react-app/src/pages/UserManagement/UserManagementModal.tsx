@@ -1,7 +1,9 @@
-import { ROLE_TYPE } from '@/types/user-auth';
+import { useUserStore } from '@/stores';
+import { ROLE_TYPE, USER_AUTHORITITY } from '@/types/user-auth';
 import { PERMISSION_TYPE, USER_MANAGEMENT_TYPE } from '@/types/user-management';
 import type {
 	FetchCurrentInfo,
+	Role,
 	UserManagementCommonData,
 	UserManagementRowRecord
 } from '@/types/user-management.d';
@@ -55,6 +57,7 @@ export const UserManagementModal = ({
 		() => permissionType === PERMISSION_TYPE.API,
 		[permissionType]
 	);
+	const isRoleAdmin = useUserStore((state) => state.user?.authorities.includes(USER_AUTHORITITY.ADMIN));
 
 	return (
 		<Modal
@@ -209,6 +212,31 @@ export const UserManagementModal = ({
 							)}
 						</Form.Item>
 						<Form.Item name="permissionDescription" label="权限描述">
+							<Input.TextArea rows={4} />
+						</Form.Item>
+					</>
+				)}
+				{currentTabType === USER_MANAGEMENT_TYPE.ROLE && (
+					<>
+						<Form.Item
+							name="roleName"
+							label="角色名称"
+							rules={[{ required: true }]}>
+							<Input placeholder="输入角色" />
+						</Form.Item>
+						<Form.Item
+							name="roleType"
+							label="角色类型"
+							rules={[{ required: true, message: '请选择角色类型' }]}>
+							<Radio.Group
+								disabled={!isRoleAdmin}
+								defaultValue={ROLE_TYPE.CUSTOM}
+								onChange={onPermissionTypeChange}>
+								<Radio value={ROLE_TYPE.SYSTEM}>系统角色</Radio>
+								<Radio value={ROLE_TYPE.CUSTOM}>自定义角色</Radio>
+							</Radio.Group>
+						</Form.Item>
+						<Form.Item name="roleDescription" label="角色描述">
 							<Input.TextArea rows={4} />
 						</Form.Item>
 					</>

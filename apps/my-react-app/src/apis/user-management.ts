@@ -115,3 +115,33 @@ export function getUserManagementCommonData() {
 		apiCode: 'GET_USER_MANAGEMENT_COMMON_DATA'
 	});
 }
+
+export function getRolePage(pageIndex: number, pageSize: number, param = {}) {
+	return getCommonPage<Role>({
+		apiCode: 'GET_ROLE',
+		pageIndex,
+		pageSize,
+		param
+	});
+}
+
+export function updateRole(role: Role) {
+	return execApiCode({
+		apiCode: 'UPDATE_ROLE',
+		param: role
+	});
+}
+
+export function addRole(role: Role) {
+	return execApiCode({
+		apiCode: 'ADD_ROLE',
+		param: role
+	});
+}
+
+export function deleteRole(roleIds: Role['roleId'][]) {
+	return execApiCode({
+		apiCode: 'DELETE_ROLE',
+		param: { roleIds }
+	});
+}
