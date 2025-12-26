@@ -36,11 +36,15 @@ export default function Trends(props: TrendsProps) {
 		setLoading(false);
 	}
 
-	const dataMap = props.statsData.reduce((prev, curr) => {
-		Object.assign(prev, { [curr.type]: curr });
-		Object.assign(prev, { [curr.title]: curr });
-		return prev;
-	}, {});
+	const dataMap = useMemo(
+		() =>
+			props.statsData.reduce((prev, curr) => {
+				Object.assign(prev, { [curr.type]: curr });
+				Object.assign(prev, { [curr.title]: curr });
+				return prev;
+			}, {}),
+		[props.statsData]
+	);
 
 	const config: LineConfig = useMemo(
 		() => ({
@@ -53,6 +57,7 @@ export default function Trends(props: TrendsProps) {
 			style: {
 				lineWidth: 2
 			},
+			shapeField: 'smooth',
 			scale: {
 				color: {
 					domain: props.statsData?.map((o) => o.title) ?? [],

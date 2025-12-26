@@ -32,7 +32,10 @@ import type {
 	UserManagementRowRecord,
 	UserRole
 } from '@/types/user-management.d';
-import { INITIAL_PAGINATION } from '@/utils/const';
+import {
+	INITIAL_PAGINATION,
+	USER_MANAGEMENT_TAB_TYPE_KEY
+} from '@/utils/const';
 import {
 	formatListWithIndex,
 	formatMapToUnderline,
@@ -42,6 +45,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Form, message, Modal, Tabs, Tag } from 'antd';
 import type { TablePaginationConfig } from 'antd/es/table';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
 	getPermissionColumns,
 	getRoleColumns,
@@ -62,9 +66,23 @@ function UserManagement() {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [editingItem, setEditingItem] =
 		useState<UserManagementRowRecord | null>(null);
+
+	const [searchParams, setSearchParams] = useSearchParams();
 	const [currentTabType, setCurrentTabType] = useState<USER_MANAGEMENT_TYPE>(
-		USER_MANAGEMENT_TYPE.USER_ROLE
+		() => {
+			const type = searchParams.get(USER_MANAGEMENT_TAB_TYPE_KEY);
+			return (type as USER_MANAGEMENT_TYPE) ?? USER_MANAGEMENT_TYPE.USER_ROLE;
+		}
 	);
+
+	const onTabChange = (key: string) => {
+		setCurrentTabType(key as USER_MANAGEMENT_TYPE);
+		setFilterObj({});
+		setSortObj({});
+		searchParams.set(USER_MANAGEMENT_TAB_TYPE_KEY, key);
+		setSearchParams(searchParams);
+	};
+
 	const [modalOkBtnLoading, setModalOkBtnLoading] = useState(false);
 	const [form] = Form.useForm();
 
@@ -691,11 +709,7 @@ function UserManagement() {
 					minHeight: 0
 				}}
 				items={tabItems}
-				onChange={(key) => {
-					setCurrentTabType(key as USER_MANAGEMENT_TYPE);
-					setFilterObj({});
-					setSortObj({});
-				}}
+				onChange={onTabChange}
 			/>
 
 			<UserManagementModal

@@ -32,5 +32,7 @@ export const API_CODE_SQL_TYPE_OPTIONS = [
 	{ text: 'UPDATE', value: 'UPDATE' },
 	{ text: 'DELETE', value: 'DELETE' },
 	{ text: 'CALL', value: 'CALL' },
-	{ text: 'OTHER', value: '' }
+	{ text: 'UNKNOWN', value: 'UNKNOWN' }
 ];
+
+export const USER_MANAGEMENT_TAB_TYPE_KEY = 'user-management-tab-type';

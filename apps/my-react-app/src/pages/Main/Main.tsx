@@ -1,6 +1,8 @@
 import { getHomeCommonAmount } from '@/apis/home';
 import style from '@/styles/modules/Main.module.css';
 import { CommonObjectType } from '@/types/common';
+import { USER_MANAGEMENT_TYPE } from '@/types/user-management';
+import { USER_MANAGEMENT_TAB_TYPE_KEY } from '@/utils/const';
 import {
 	ArrowUpOutlined,
 	CodeOutlined,
@@ -24,7 +26,8 @@ export default function Main() {
 				title: 'API 接口',
 				value: 0,
 				icon: <CodeOutlined />,
-				color: '#1890ff'
+				color: '#1890ff',
+				url: '/home/api-code'
 			},
 			{
 				type: 'user',
@@ -32,21 +35,24 @@ export default function Main() {
 				value: 0,
 				icon: <UserOutlined />,
 				color: '#52c41a',
-				suffix: <ArrowUpOutlined style={{ color: '#52c41a' }} />
+				suffix: <ArrowUpOutlined style={{ color: '#52c41a' }} />,
+				url: '/home/user-management'
 			},
 			{
 				type: 'role',
 				title: '角色数',
 				value: 0,
 				icon: <FileTextOutlined />,
-				color: '#faad14'
+				color: '#faad14',
+				url: `/home/user-management?${USER_MANAGEMENT_TAB_TYPE_KEY}=${USER_MANAGEMENT_TYPE.ROLE_PERMISSION}`
 			},
 			{
 				type: 'permission',
 				title: '权限数',
 				value: 0,
 				icon: <TeamOutlined />,
-				color: '#f5222d'
+				color: '#f5222d',
+				url: `/home/user-management?${USER_MANAGEMENT_TAB_TYPE_KEY}=${USER_MANAGEMENT_TYPE.PERMISSION}`
 			}
 		],
 		[]
@@ -114,37 +120,6 @@ export default function Main() {
 		[]
 	);
 
-	// 快速导航数据
-	const quickLinks = useMemo(
-		() => [
-			{
-				icon: (
-					<FileTextOutlined style={{ fontSize: '32px', color: '#1890ff' }} />
-				),
-				title: 'API Code',
-				description: '管理所有 API 接口',
-				url: '/home/api-code'
-			},
-			{
-				icon: <UserOutlined style={{ fontSize: '32px', color: '#52c41a' }} />,
-				title: '用户管理',
-				description: '用户信息维护',
-				url: '/home/user-management'
-			},
-			{
-				icon: <CodeOutlined style={{ fontSize: '32px', color: '#faad14' }} />,
-				title: '内容管理',
-				description: '发布和编辑内容'
-			},
-			{
-				icon: <TeamOutlined style={{ fontSize: '32px', color: '#f5222d' }} />,
-				title: '团队协作',
-				description: '团队成员管理'
-			}
-		],
-		[]
-	);
-
 	const navigate = useNavigate();
 	function handleNavigate(url?: string): void {
 		if (url) {
@@ -164,7 +139,10 @@ export default function Main() {
 			<Row gutter={[16, 16]} style={{ marginTop: '24px' }}>
 				{stats.map((stat, index) => (
 					<Col xs={24} sm={12} lg={6} key={index}>
-						<Card className={style.statCard}>
+						<Card
+							className={style.statCard}
+							hoverable
+							onClick={() => handleNavigate(stat.url)}>
 							<div
 								style={{
 									display: 'flex',
@@ -226,27 +204,6 @@ export default function Main() {
 						}))}
 					/>
 				</Card>
-			</div>
-
-			{/* 快速链接 */}
-			<div style={{ marginTop: '40px', marginBottom: '40px' }}>
-				<h2 className={style.sectionTitle}>快速导航</h2>
-				<Row gutter={[16, 16]}>
-					{quickLinks.map((link) => (
-						<Col
-							xs={24}
-							sm={12}
-							lg={6}
-							key={link.title}
-							onClick={() => handleNavigate(link.url)}>
-							<Card className={style.quickLink} hoverable>
-								{link.icon}
-								<h3>{link.title}</h3>
-								<p>{link.description}</p>
-							</Card>
-						</Col>
-					))}
-				</Row>
 			</div>
 		</div>
 	);
