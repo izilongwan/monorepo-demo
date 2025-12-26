@@ -1,132 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 .homeLayout {
-  min-height: 100vh;
+  @apply tw-min-h-screen;
 }
 
 .homeHeader {
-  height: 64px;
-  line-height: 64px;
+  @apply tw-h-16 tw-leading-[64px] tw-px-6 tw-flex tw-items-center tw-sticky tw-top-0 tw-z-10;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 10;
 }
 
 .logo {
-  font-size: 20px;
-  font-weight: bold;
-  color: #fff;
-  cursor: pointer;
+  @apply tw-text-xl tw-font-bold tw-text-white tw-cursor-pointer;
 }
 
 .logoLink {
-  color: inherit;
-  text-decoration: none;
-}
-
-.logoLink:hover {
-  opacity: 0.8;
+  @apply tw-text-inherit tw-no-underline hover:tw-opacity-80;
 }
 
 .sider {
-  background: #fff;
+  @apply tw-bg-white tw-overflow-y-auto tw-overflow-x-hidden;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.06);
-  overflow-y: auto;
-  overflow-x: hidden;
   max-height: calc(100vh - 64px);
 }
 
 .menu {
-  height: 100%;
-  border-right: 0;
+  @apply tw-h-full tw-border-r-0;
 }
 
 .menuLink {
-  color: inherit;
-  text-decoration: none;
-}
-
-.menuLink:hover {
-  color: inherit;
+  @apply tw-text-inherit tw-no-underline hover:tw-text-inherit;
 }
 
 .content {
-  padding: 24px;
-  background: #f5f5f5;
-  overflow-y: auto;
+  @apply tw-p-6 tw-bg-gray-100 tw-overflow-y-auto;
   max-height: calc(100vh - 64px);
 }
 
 .contentInner {
-  background: #fff;
-  padding: 24px;
-  border-radius: 8px;
+  @apply tw-bg-white tw-p-6 tw-rounded-lg tw-max-h-full tw-overflow-y-auto;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-  max-height: 100%;
-  overflow-y: auto;
 }
 
 .userProfile {
-  padding: 16px;
-  min-width: 250px;
-  max-height: 300px;
-  overflow-y: auto;
+  @apply tw-p-4 tw-min-w-[250px] tw-max-h-[300px] tw-overflow-y-auto;
 }
 
 .userProfileUsername {
-  margin-bottom: 16px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #1890ff;
+  @apply tw-mb-4 tw-text-base tw-font-bold tw-text-blue-500;
 }
 
 .userProfileItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-  padding: 6px 0;
-  border-bottom: 1px solid #f0f0f0;
+  @apply tw-flex tw-justify-between tw-items-center tw-mb-3 tw-py-1.5 tw-border-b tw-border-gray-100;
 }
 
 .userProfileItem:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
+  @apply tw-border-b-0 tw-mb-0;
 }
 
 .userProfileLabel {
-  font-size: 13px;
-  color: #666;
-  font-weight: 500;
+  @apply tw-text-[13px] tw-text-gray-600 tw-font-medium;
 }
 
 .userProfileValue {
-  font-size: 13px;
-  color: #333;
-  font-weight: 600;
+  @apply tw-text-[13px] tw-text-gray-800 tw-font-semibold;
 }
 
 .userProfilePermissions {
-  margin-top: 16px;
-  margin-bottom: 16px;
+  @apply tw-my-4;
 }
 
 .userProfilePermissionsLabel {
-  font-size: 13px;
-  color: #666;
-  font-weight: 500;
-  margin-bottom: 8px;
-  display: block;
+  @apply tw-text-[13px] tw-text-gray-600 tw-font-medium tw-mb-2 tw-block;
 }
 
 .userProfilePermissionsTags {
-  margin-top: 8px;
-  max-width: 200px;
+  @apply tw-mt-2 tw-max-w-[200px];
 }
 
 .userProfilePermissionsTags :global(.ant-tag) + :global(.ant-tag) {
-  margin-top: 8px;
+  @apply tw-mt-2;
 }

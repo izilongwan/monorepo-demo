@@ -1,97 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 .mainPage {
-  padding: 0;
+  @apply tw-p-0;
 }
 
 .welcomeCard {
+  @apply tw-text-white tw-border-0 tw-rounded-lg tw-text-center;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  text-align: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .title {
-  margin: 0 0 6px 0;
-  font-size: 32px;
-  font-weight: bold;
-  color: #fff;
+  @apply tw-m-0 tw-mb-1.5 tw-text-[32px] tw-font-bold tw-text-white;
 }
 
 .subtitle {
-  font-size: 16px;
+  @apply tw-text-base;
   color: rgba(255, 255, 255, 0.8);
 }
 
 .statCard {
-  border: none;
-  border-radius: 8px;
+  @apply tw-border-0 tw-rounded-lg tw-transition-all tw-duration-300;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  transition: all 0.3s ease;
 }
 
 .statCard:hover {
+  @apply tw--translate-y-0.5;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
 }
 
 .sectionTitle {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 16px;
-  color: #1890ff;
-  padding-bottom: 8px;
+  @apply tw-text-xl tw-font-bold tw-mb-4 tw-text-blue-500 tw-pb-2 tw-inline-block;
   border-bottom: 2px solid #1890ff;
-  display: inline-block;
 }
 
 .featureCard {
-  border: none;
-  border-radius: 8px;
+  @apply tw-border-0 tw-rounded-lg tw-transition-all tw-duration-300 tw-h-full;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  transition: all 0.3s ease;
-  height: 100%;
 }
 
 .featureCard:hover {
+  @apply tw--translate-y-1;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
-  transform: translateY(-4px);
 }
 
 .featureCard h3 {
-  margin: 0 0 8px 0;
-  color: #1890ff;
-  font-size: 16px;
+  @apply tw-m-0 tw-mb-2 tw-text-blue-500 tw-text-base;
 }
 
 .description {
-  color: #666;
-  margin: 0 0 16px 0;
-  font-size: 14px;
-  line-height: 1.5;
+  @apply tw-text-gray-600 tw-m-0 tw-mb-4 tw-text-sm tw-leading-relaxed;
 }
 
 .quickLink {
-  border: none;
-  border-radius: 8px;
+  @apply tw-border-0 tw-rounded-lg tw-transition-all tw-duration-300 tw-text-center tw-py-8 tw-px-4;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  transition: all 0.3s ease;
-  text-align: center;
-  padding: 32px 16px;
 }
 
 .quickLink:hover {
+  @apply tw--translate-y-1;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
-  transform: translateY(-4px);
 }
 
 .quickLink h3 {
-  margin: 16px 0 8px 0;
-  color: #1890ff;
+  @apply tw-my-4 tw-mt-4 tw-mb-2 tw-text-blue-500;
 }
 
 .quickLink p {
-  color: #666;
-  margin: 0;
-  font-size: 14px;
+  @apply tw-text-gray-600 tw-m-0 tw-text-sm;
 }

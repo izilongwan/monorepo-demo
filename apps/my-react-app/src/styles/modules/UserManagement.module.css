@@ -1,57 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 .container {
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	overflow: hidden;
-	box-sizing: border-box;
-	padding: 0 24px;
+	@apply tw-h-full tw-flex tw-flex-col tw-overflow-hidden tw-box-border tw-px-6;
 }
 
 .tabs {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	min-height: 0;
+	@apply tw-flex-1 tw-flex tw-flex-col tw-min-h-0;
 }
 
 .tabContent {
-	display: flex;
-	flex-direction: column;
-	gap: 12px;
-	flex: 1;
-	min-height: 0;
+	@apply tw-flex tw-flex-col tw-gap-3 tw-flex-1 tw-min-h-0;
 }
 
 .tableWrapper {
-	flex: 1;
-	overflow: hidden;
+	@apply tw-flex-1 tw-overflow-hidden;
 }
 
 .addButton {
-	width: fit-content;
+	@apply tw-w-fit;
 }
 
 .permissionType {
-	margin-left: 8px;
-	color: #999;
-	font-size: 12px;
+	@apply tw-ml-2 tw-text-gray-500 tw-text-xs;
 }
 
 .authTagRow {
-	margin-top: 12px;
+	@apply tw-mt-3 tw-space-y-3;
 }
 
 .authTagRow :global(span[aria-describedby]) {
-	display: flex;
-	flex-direction: column;
-	padding: 6px 0;
-	gap: 12px;
-}
-
-.text-red {
-	color: red;
+	@apply tw-flex tw-flex-col tw-py-1.5 tw-gap-3;
 }
 
 .authTagRow :global(.ant-tag) {
-	width: fit-content;
+	@apply tw-w-fit;
+}
+
+.text-red {
+	@apply tw-text-red-500;
 }

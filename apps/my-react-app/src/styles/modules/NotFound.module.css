@@ -1,6 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 .container {
-  min-height: fit-content;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @apply tw-min-h-fit tw-flex tw-items-center tw-justify-center;
 }
