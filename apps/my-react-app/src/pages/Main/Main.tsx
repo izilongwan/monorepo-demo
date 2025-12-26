@@ -10,7 +10,7 @@ import {
 	TeamOutlined,
 	UserOutlined
 } from '@ant-design/icons';
-import { Button, Card, Col, Row, Space, Statistic, Tag, Timeline } from 'antd';
+import { Card, Col, Row, Statistic, Tag, Timeline } from 'antd';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Trends from './Trend';
@@ -35,7 +35,7 @@ export default function Main() {
 				value: 0,
 				icon: <UserOutlined />,
 				color: '#52c41a',
-				suffix: <ArrowUpOutlined style={{ color: '#52c41a' }} />,
+				suffix: <ArrowUpOutlined className="tw-text-green-500" />,
 				url: '/home/user-management'
 			},
 			{
@@ -136,19 +136,14 @@ export default function Main() {
 			</Card>
 
 			{/* 统计数据 */}
-			<Row gutter={[16, 16]} style={{ marginTop: '24px' }}>
+			<Row gutter={[16, 16]} className="tw-mt-6">
 				{stats.map((stat, index) => (
 					<Col xs={24} sm={12} lg={6} key={index}>
 						<Card
 							className={style.statCard}
 							hoverable
 							onClick={() => handleNavigate(stat.url)}>
-							<div
-								style={{
-									display: 'flex',
-									alignItems: 'center',
-									justifyContent: 'space-between'
-								}}>
+							<div className="tw-flex tw-items-center tw-justify-between">
 								<div>
 									<Statistic
 										title={stat.title}
@@ -158,7 +153,8 @@ export default function Main() {
 									/>
 								</div>
 								<div
-									style={{ fontSize: '32px', color: stat.color, opacity: 0.2 }}>
+									className="tw-text-[32px] tw-opacity-20"
+									style={{ color: stat.color }}>
 									{stat.icon}
 								</div>
 							</div>
@@ -170,7 +166,7 @@ export default function Main() {
 			<Trends statsData={statsData} />
 
 			{/* 功能特性 */}
-			<div style={{ marginTop: '40px' }}>
+			<div className="tw-mt-10">
 				<h2 className={style.sectionTitle}>主要功能</h2>
 				<Row gutter={[16, 16]}>
 					{features.map((feature, index) => (
@@ -180,10 +176,7 @@ export default function Main() {
 								<p className={style.description}>{feature.description}</p>
 								<div>
 									{feature.tags.map((tag) => (
-										<Tag
-											key={tag}
-											color="blue"
-											style={{ marginRight: '4px', marginBottom: '8px' }}>
+										<Tag key={tag} color="blue" className="tw-mr-1 tw-mb-2">
 											{tag}
 										</Tag>
 									))}
@@ -195,7 +188,7 @@ export default function Main() {
 			</div>
 
 			{/* 项目进度 */}
-			<div style={{ marginTop: '40px' }}>
+			<div className="tw-mt-10">
 				<h2 className={style.sectionTitle}>项目进度</h2>
 				<Card>
 					<Timeline

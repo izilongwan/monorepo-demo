@@ -224,9 +224,7 @@ export default function ApiCodePage() {
 			filters: API_CODE_SQL_TYPE_OPTIONS,
 			filterMultiple: false,
 			render: (type) =>
-				type && (
-					<Tag style={{ borderStyle: 'dashed' }}>{type?.toUpperCase()}</Tag>
-				)
+				type && <Tag className="tw-border-dashed">{type?.toUpperCase()}</Tag>
 		},
 		{
 			title: 'API SQL',
@@ -315,27 +313,23 @@ export default function ApiCodePage() {
 							icon={
 								record.state === API_CODE_STATE.PUBLISH ? (
 									<CloudDownloadOutlined
-										style={{
-											color: hasPublishAuth ? '#ffa807ff' : undefined
-										}}
+										className={hasPublishAuth ? 'tw-text-[#ffa807ff]' : ''}
 									/>
 								) : (
 									<CloudUploadOutlined
-										style={{
-											color: hasPublishAuth ? '#52c41aff' : undefined
-										}}
+										className={hasPublishAuth ? 'tw-text-[#52c41aff]' : ''}
 									/>
 								)
 							}
 							onClick={() => handlePublishToggle(record)}>
 							{record.state === API_CODE_STATE.PUBLISH ? (
-								<span
-									style={{ color: hasPublishAuth ? '#ffa807ff' : undefined }}>
+							<span
+								className={hasPublishAuth ? 'tw-text-[#ffa807ff]' : ''}>
 									{API_CODE_STATE_MAP[API_CODE_STATE.UNPUBLISH]}
 								</span>
 							) : (
-								<span
-									style={{ color: hasPublishAuth ? '#52c41aff' : undefined }}>
+							<span
+								className={hasPublishAuth ? 'tw-text-[#52c41aff]' : ''}>
 									{API_CODE_STATE_MAP[API_CODE_STATE.PUBLISH]}
 								</span>
 							)}
@@ -375,8 +369,8 @@ export default function ApiCodePage() {
 	};
 
 	return (
-		<div style={{ padding: '0 20px' }}>
-			<div style={{ marginBottom: '16px' }}>
+		<div className="tw-px-5">
+			<div className="tw-mb-4">
 				<Button
 					disabled={!hasApiCreateAuth}
 					type="primary"

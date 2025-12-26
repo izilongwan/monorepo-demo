@@ -5,7 +5,7 @@ import { MainTrendItem } from '@/types/main';
 import { jsonParseSafe } from '@/utils/tool';
 import { Line, LineConfig } from '@ant-design/charts';
 import { Empty } from 'antd';
-import { useEffect, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 
 interface TrendsProps {
 	statsData: CommonObjectType[];
@@ -73,8 +73,10 @@ export default function Trends(props: TrendsProps) {
 	}
 
 	return trendData?.length ? (
-		<Line {...config} height={300} />
+		<Suspense fallback={<SkeletonCommon />}>
+			<Line {...config} height={300} />
+		</Suspense>
 	) : (
-		<Empty style={{ margin: '10px 0' }} />
+		<Empty className="tw-my-3" />
 	);
 }
