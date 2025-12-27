@@ -44,7 +44,7 @@ export default function Main() {
 				value: 0,
 				icon: <FileTextOutlined />,
 				color: '#faad14',
-				url: `/home/user-management?${USER_MANAGEMENT_TAB_TYPE_KEY}=${USER_MANAGEMENT_TYPE.ROLE_PERMISSION}`
+				url: `/home/user-management?${USER_MANAGEMENT_TAB_TYPE_KEY}=${USER_MANAGEMENT_TYPE.ROLE}`
 			},
 			{
 				type: 'permission',
