@@ -1,4 +1,4 @@
-import SkeletonCommon from '@/components/skeleton-common';
+import SkeletonCommon from '@/components/SkeletonCommon';
 import { USER_AUTHORITITY } from '@/types/user-auth';
 import { lazy, memo, Suspense } from 'react';
 import { Navigate, RouteObject } from 'react-router-dom';

@@ -1,4 +1,4 @@
-import SkeletonCommon from '@/components/skeleton-common';
+import SkeletonCommon from '@/components/SkeletonCommon';
 import { useUserStore } from '@/stores';
 import { USER_AUTHORITITY } from '@/types/user-auth';
 import { Button, message, Result } from 'antd';

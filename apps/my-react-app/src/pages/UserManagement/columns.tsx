@@ -1,7 +1,7 @@
-import AuthTagPopover from '@/components/auth-tag-popover';
-import { createFilterDropdown, createFilterIcon } from '@/components/filter';
+import AuthTagPopover from '@/components/AuthTagPopover';
+import { createFilterDropdown, createFilterIcon } from '@/components/Filter';
 import { FilterItem } from '@/types/common';
-import { ROLE_TYPE, USER_AUTHORITITY } from '@/types/user-auth';
+import { USER_AUTHORITITY } from '@/types/user-auth';
 import { USER_MANAGEMENT_TYPE } from '@/types/user-management';
 import {
 	Permission,

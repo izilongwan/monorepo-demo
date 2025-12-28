@@ -1,5 +1,5 @@
 import { fetchGithubUser, refreshAuthorityToken } from '@/apis/user-auth';
-import AuthTagPopover from '@/components/auth-tag-popover';
+import AuthTagPopover from '@/components/AuthTagPopover';
 import { useUserStore } from '@/stores';
 import style from '@/styles/modules/Home.module.css';
 import { tokenUtil } from '@/utils/tokenUtil';
@@ -12,7 +12,7 @@ import {
 	UserOutlined
 } from '@ant-design/icons';
 import { Avatar, Button, Dropdown, Layout, Menu, message, Space } from 'antd';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 
 const { Header, Sider, Content } = Layout;

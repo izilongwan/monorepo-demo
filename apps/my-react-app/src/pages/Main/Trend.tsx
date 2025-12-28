@@ -1,5 +1,5 @@
 import { getMainTrend } from '@/apis/main';
-import SkeletonCommon from '@/components/skeleton-common';
+import SkeletonCommon from '@/components/SkeletonCommon';
 import { CommonObjectType } from '@/types/common';
 import { MainTrendItem } from '@/types/main';
 import { jsonParseSafe } from '@/utils/tool';

@@ -1,4 +1,4 @@
-import { parseSortInfo } from '@/components/filter';
+import { parseSortInfo } from '@/components/Filter';
 import { API_CODE_OUTPUT } from '@/types/apicode';
 import { ApiCodeQueryParams } from '@/types/apicode.d';
 import { CommonObjectType } from '@/types/common';

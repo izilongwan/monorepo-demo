@@ -17,7 +17,7 @@ import {
 	updateRolePermission,
 	updateUserRole
 } from '@/apis/user-management';
-import AuthTagPopover from '@/components/auth-tag-popover';
+import AuthTagPopover from '@/components/AuthTagPopover';
 import { useUserStore } from '@/stores';
 import styles from '@/styles/modules/UserManagement.module.css';
 import { CommonObjectType } from '@/types/common';
