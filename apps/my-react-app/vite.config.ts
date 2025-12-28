@@ -3,18 +3,7 @@ import { readFileSync } from 'fs';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-	plugins: [
-		react()
-		// autoImport({
-		//   imports: [
-		//     'react',
-		//     'react/router',
-		//   ],
-		//   dts: true,
-		//   resolvers: [AntdResolver()],
-		// }),
-		// componentAutoImport({ resolvers: [AntdResolver()] })
-	],
+	plugins: [react()],
 	build: {
 		outDir: 'dist',
 		entry: './src/main.tsx',
@@ -38,14 +27,9 @@ export default defineConfig({
 		host: '0.0.0.0',
 		port: 5173,
 		strictPort: true,
-    hmr: {
-      protocol: 'wss',
-      host: 'website.nima.cc.cd',
-      clientPort: 443,
-    },
 		https: {
-			key: readFileSync('./certs/key.pem'),
-			cert: readFileSync('./certs/cert.pem')
+			key: readFileSync('../../certs/key.pem'),
+			cert: readFileSync('../../certs/cert.pem')
 		},
 		proxy: {
 			'/api': {
