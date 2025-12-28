@@ -1,9 +1,12 @@
 import { Skeleton } from 'antd';
 
-export default () => (
+interface SkeletonCommonProps {
+	paragraphRows?: number;
+}
+
+export default ({ paragraphRows = 6 }: SkeletonCommonProps) => (
 	<div className="tw-p-5">
-		<Skeleton active />
-		<Skeleton active />
+		<Skeleton paragraph={{ rows: paragraphRows }} active />
 		<Skeleton.Button size="large" className="tw-mt-2" active />
 	</div>
 );
