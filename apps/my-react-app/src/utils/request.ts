@@ -1,6 +1,7 @@
 import { refreshAccessToken, setRedirectUrl } from '@/apis/user-auth';
 import { PageApiCodeResult } from '@/types/apicode.d';
 import { message } from 'antd';
+import { SpinService } from './spin-service';
 import { tokenUtil } from './tokenUtil';
 
 enum HttpMethod {
@@ -31,6 +32,7 @@ interface RequestOptions {
 	rawResponse?: boolean;
 	needToken?: boolean;
 	codeErrorTip?: boolean;
+	globalLoading?: boolean;
 }
 
 export interface ResponseRawResult<T> {
@@ -126,7 +128,7 @@ class HttpClient {
 			}
 			return true;
 		};
-
+		options.globalLoading && SpinService.show();
 		while (attempt <= retries) {
 			try {
 				const fetchOptions: RequestInit = {
@@ -191,6 +193,8 @@ class HttpClient {
 				} else {
 					throw lastError;
 				}
+			} finally {
+				options.globalLoading && SpinService.hide();
 			}
 		}
 
