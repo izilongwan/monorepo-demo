@@ -32,7 +32,9 @@ export default function UnauthenticatedPage(props: UnauthenticatedPageProps) {
 			title="未登录"
 			subTitle="您需要先登录才能访问此页面"
 			extra={
-				<Button type="primary" onClick={fetchGithubUser}>
+				<Button
+					type="primary"
+					onClick={() => fetchGithubUser({ globalLoading: true })}>
 					去登录
 				</Button>
 			}

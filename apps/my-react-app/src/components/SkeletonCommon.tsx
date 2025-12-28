@@ -1,9 +1,9 @@
 import { Skeleton } from 'antd';
 
 export default () => (
-	<div style={{ padding: '20px' }}>
+	<div className="tw-p-5">
 		<Skeleton active />
 		<Skeleton active />
-		<Skeleton.Button active style={{ width: 200, marginTop: 16 }} />
+		<Skeleton.Button size="large" className="tw-mt-2" active />
 	</div>
 );

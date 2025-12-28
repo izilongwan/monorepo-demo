@@ -1,3 +1,4 @@
+import { CommonObjectType } from '@/types/common';
 import { AuthorityToken } from '@/types/user-auth.d';
 import { UserProfile } from '@/types/user-management.d';
 import httpClient from '@/utils/request';
@@ -16,8 +17,8 @@ export function setRedirectUrl() {
 	);
 }
 
-export function fetchGithubUser() {
-	return httpClient.get<UserProfile>(`${AUTH_API}/me`);
+export function fetchGithubUser(option: CommonObjectType = {}) {
+	return httpClient.get<UserProfile>(`${AUTH_API}/me`, {}, option);
 }
 
 export function refreshAccessToken() {
