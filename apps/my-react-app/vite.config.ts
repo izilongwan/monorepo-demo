@@ -2,6 +2,7 @@ import react from '@vitejs/plugin-react';
 import { readFileSync } from 'fs';
 import type { ConfigEnv, PluginOption } from 'vite';
 import { defineConfig, loadEnv } from 'vite';
+import { resolve } from 'path';
 
 export default defineConfig(({ mode }: ConfigEnv) => {
 	const env = loadEnv(mode, process.cwd(), '');
@@ -10,7 +11,7 @@ export default defineConfig(({ mode }: ConfigEnv) => {
 		plugins: [react()] as PluginOption[],
 		build: {
 			outDir: 'dist',
-			entry: './src/main.tsx',
+			entry: resolve(__dirname, './src/main.ts'),
 			rollupOptions: {
 				// 确保外部化处理那些你不想打包进库的依赖
 				external: [],
@@ -32,11 +33,11 @@ export default defineConfig(({ mode }: ConfigEnv) => {
 			port: 5173,
 			strictPort: true,
 			cors: true,
-			// hmr: {
-			// 	protocol: 'wss',
-			// 	host: 'website.nima.cc.cd',
-			// 	clientPort: 443
-			// },
+			hmr: {
+				protocol: 'wss',
+				host: 'website.nima.cc.cd',
+				clientPort: 443
+			},
 			https: {
 				key: readFileSync(env.FRP_CERT_KEY_PATH),
 				cert: readFileSync(env.FRP_CERT_PATH)
