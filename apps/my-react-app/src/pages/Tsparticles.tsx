@@ -1,6 +1,7 @@
 import Particles, { initParticlesEngine } from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
 import { useEffect, useMemo, useState } from 'react';
+import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 
 function Tsparticles() {
@@ -17,6 +18,11 @@ function Tsparticles() {
 	// 使用 useMemo 缓存粒子配置，避免重复创建
 	const particlesConfig = useMemo(
 		() => ({
+			style: {
+				position: 'absolute',
+				width: '100%',
+				height: '100%'
+			},
 			background: {
 				color: {
 					value: '#0a0e27'
@@ -160,12 +166,13 @@ function Tsparticles() {
 		}),
 		[]
 	);
-	return (
+
+	return ReactDOM.createPortal(
 		<div
 			style={{
 				position: 'relative',
 				width: '100%',
-				height: '100vh',
+				height: '100%',
 				overflow: 'hidden'
 			}}>
 			{init && <Particles id="tsparticles" options={particlesConfig} />}
@@ -193,14 +200,7 @@ function Tsparticles() {
 					}}>
 					欢迎来到
 				</h1>
-				{/* <h2
-					style={{
-						fontSize: '2.5rem',
-						margin: '0 0 30px 0',
-						color: '#00ffff'
-					}}>
-					炫彩粒子世界
-				</h2> */}
+
 				<p style={{ fontSize: '1.2rem', margin: '0 0 40px 0', opacity: 0.8 }}>
 					享受动态的粒子效果 • 鼠标悬停和点击体验交互
 				</p>
@@ -233,7 +233,8 @@ function Tsparticles() {
 					前往首页
 				</Link>
 			</div>
-		</div>
+		</div>,
+		document.querySelector('#subapp-container')! ?? document.body
 	);
 }
 
