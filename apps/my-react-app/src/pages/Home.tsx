@@ -78,12 +78,12 @@ function Home() {
 
 	useEffect(() => {
 		if (tokenUtil.getAccessToken()) {
-			handleLogin();
+			getUserInfo();
 		}
 	}, []);
 
 	// 模拟登录
-	const handleLogin = async () => {
+	const getUserInfo = async () => {
 		setLoginLoading(true);
 		try {
 			const userData = await fetchGithubUser().promise;
@@ -102,6 +102,13 @@ function Home() {
 		} finally {
 			setLoginLoading(false);
 		}
+	};
+
+	const handleLogin = async () => {
+		await fetchGithubUser({
+			globalLoading: true,
+			reties: 1
+		}).promise;
 	};
 
 	// 登出

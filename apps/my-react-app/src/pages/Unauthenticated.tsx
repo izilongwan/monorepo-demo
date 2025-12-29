@@ -34,7 +34,9 @@ export default function UnauthenticatedPage(props: UnauthenticatedPageProps) {
 			extra={
 				<Button
 					type="primary"
-					onClick={() => fetchGithubUser({ globalLoading: true })}>
+					onClick={() =>
+						fetchGithubUser({ globalLoading: true, reties: 1 }).promise
+					}>
 					去登录
 				</Button>
 			}

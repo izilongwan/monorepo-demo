@@ -215,6 +215,7 @@ class HttpClient {
 		if (response.status === HttpStatus.UNAUTHORIZED) {
 			if (!tokenUtil.getRefreshToken() || url.includes('/auth/o/refresh/')) {
 				tokenUtil.clearTokens();
+				SpinService.show();
 				await this.redirectGithubLoginAuthorization(response);
 			}
 
