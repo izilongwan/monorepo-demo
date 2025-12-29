@@ -27,8 +27,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # Env & secrets
-.env
-.env.*
 !.env.example
 
 # IDE/Editor
@@ -39,8 +37,7 @@ yarn-error.log*
 .DS_Store
 
 # Certs
-apps/my-react-app/certs/cert.pem
-apps/my-react-app/certs/key.pem
+certs/*
 
 # Misc
 *.local
