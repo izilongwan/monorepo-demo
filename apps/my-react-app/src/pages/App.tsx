@@ -1,7 +1,7 @@
 import GlobalSpin from '@/components/GlobalSpin';
 import { useEffect } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
-import { tokenUtil } from './utils/tokenUtil';
+import { tokenUtil } from '../utils/tokenUtil';
 
 export default () => {
 	const [params, setSearchParams] = useSearchParams();

@@ -5,7 +5,7 @@ import { Navigate, RouteObject } from 'react-router-dom';
 
 // 未登录守卫组件
 const UnauthenticatedGuard = memo((props: Partial<AuthProps>) => {
-	return LazyLoadComponent('../pages/Unauthenticated', props);
+	return LazyLoadComponent('Unauthenticated', props);
 });
 
 interface AuthProps {
@@ -15,15 +15,18 @@ interface AuthProps {
 
 // 带权限检查的路由守卫
 const UnauthorizedGuard = memo((props: AuthProps) => {
-	return LazyLoadComponent('../pages/Unauthorized', props);
+	return LazyLoadComponent('Unauthorized', props);
 });
 
 function LazyLoadComponent(
-	path: string,
+	fileName: string,
 	props = {},
 	auth: USER_AUTHORITITY = USER_AUTHORITITY.GUEST
 ) {
-	const Component = lazy(() => import(path));
+	// 添加 .tsx 扩展名以确保正确的文件导入
+	const pathName = `../pages/${fileName}`;
+
+	const Component = lazy(() => import(pathName));
 
 	const AuthComponent = () => {
 		if (auth === USER_AUTHORITITY.GUEST) {
@@ -49,37 +52,29 @@ function LazyLoadComponent(
 export const routes: RouteObject[] = [
 	{
 		path: '/',
-		element: LazyLoadComponent('../App'),
+		element: LazyLoadComponent('App'),
 		children: [
 			{ index: true, element: <Navigate to="/tsparticles" replace /> },
 			{
 				path: '/tsparticles',
-				element: LazyLoadComponent('../pages/Tsparticles')
+				element: LazyLoadComponent('Tsparticles')
 			},
 			{
 				path: '/home',
-				element: LazyLoadComponent('../pages/Home'),
+				element: LazyLoadComponent('Home'),
 				children: [
 					{
 						index: true,
-						element: (
-							<UnauthenticatedGuard>
-								<Navigate to="main" replace />
-							</UnauthenticatedGuard>
-						)
+						element: <Navigate to="main" replace />
 					},
 					{
 						path: 'main',
-						element: LazyLoadComponent(
-							'../pages/Main/Main',
-							{},
-							USER_AUTHORITITY.USER
-						)
+						element: LazyLoadComponent('Main/Main', {}, USER_AUTHORITITY.USER)
 					},
 					{
 						path: 'api-code',
 						element: LazyLoadComponent(
-							'../pages/ApiCode',
+							'ApiCode',
 							{ needTip: false },
 							USER_AUTHORITITY.USER
 						)
@@ -87,24 +82,24 @@ export const routes: RouteObject[] = [
 					{
 						path: 'user-management',
 						element: LazyLoadComponent(
-							'../pages/UserManagement/UserManagement',
+							'UserManagement/UserManagement',
 							{},
 							USER_AUTHORITITY.USER
 						)
 					},
-					{ path: 'about', element: LazyLoadComponent('../pages/About') },
-					{ path: '*', element: LazyLoadComponent('../pages/NotFound') }
+					{ path: 'about', element: LazyLoadComponent('About') },
+					{ path: '*', element: LazyLoadComponent('NotFound') }
 				]
 			},
 			{
 				path: '/unauthenticated',
-				element: LazyLoadComponent('../pages/Unauthenticated')
+				element: LazyLoadComponent('Unauthenticated')
 			},
 			{
 				path: '/unauthorized',
-				element: LazyLoadComponent('../pages/Unauthorized')
+				element: LazyLoadComponent('Unauthorized')
 			},
-			{ path: '*', element: LazyLoadComponent('../pages/NotFound') }
+			{ path: '*', element: LazyLoadComponent('NotFound') }
 		]
 	}
 ];

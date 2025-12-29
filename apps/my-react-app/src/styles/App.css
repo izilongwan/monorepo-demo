@@ -1,0 +1,5 @@
+html,
+body,
+#root {
+  @apply tw-h-full tw-w-full;
+}
