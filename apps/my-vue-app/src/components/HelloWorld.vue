@@ -1,5 +1,9 @@
 <template>
-	<h1>{{ msg }}</h1>
+	<div>
+		<h1>{{ msg }}</h1>
+
+		<p>{{ new Date().toLocaleString() }}</p>
+	</div>
 </template>
 
 <script lang="ts">
@@ -9,7 +13,8 @@ export default defineComponent({
 	props: {
 		msg: {
 			type: String,
-			required: true
+			required: true,
+			default: 'Hello World'
 		}
 	},
 	setup: () => {

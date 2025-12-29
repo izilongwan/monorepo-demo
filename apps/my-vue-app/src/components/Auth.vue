@@ -32,5 +32,3 @@ defineProps<{
 	type: string;
 }>();
 </script>
-
-<style scoped></style>
