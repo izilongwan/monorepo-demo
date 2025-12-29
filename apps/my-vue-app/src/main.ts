@@ -11,7 +11,7 @@ import {
 
 function renderApp(props: Record<string, any> = {}) {
 	const app = createApp(App);
-	app.use(createAppRouter(props.base)).use(directives).mount('#app');
+	app.use(createAppRouter(props.base)).use(directives).mount('#subapp');
 }
 
 if (qiankunWindow?.__POWERED_BY_QIANKUN__) {
@@ -21,18 +21,26 @@ if (qiankunWindow?.__POWERED_BY_QIANKUN__) {
 	renderApp();
 }
 
+export async function bootstrap() {
+	console.log('my-vue-app bootstraped');
+}
+
+export async function mount(props: Record<string, any>) {
+	console.log('my-vue-app mount', props);
+	renderApp(props);
+}
+
+export async function unmount(props: Record<string, any>) {
+	console.log('my-vue-app unmount', props);
+}
+
+export async function update(props: Record<string, any>) {
+	console.log('my-vue-app update', props);
+}
+
 renderWithQiankun({
-	bootstrap() {
-		console.log('my-vue-app bootstraped');
-	},
-	mount(props) {
-		console.log('my-vue-app mount', props);
-		renderApp(props);
-	},
-	unmount(props) {
-		console.log('my-vue-app unmount', props);
-	},
-	update(props) {
-		console.log('my-vue-app update', props);
-	}
+	bootstrap,
+	mount,
+	unmount,
+	update
 });

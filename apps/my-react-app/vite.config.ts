@@ -3,12 +3,16 @@ import { readFileSync } from 'fs';
 import type { ConfigEnv, PluginOption } from 'vite';
 import { defineConfig, loadEnv } from 'vite';
 import { resolve } from 'path';
+import qiankun from 'vite-plugin-qiankun';
 
 export default defineConfig(({ mode }: ConfigEnv) => {
 	const env = loadEnv(mode, process.cwd(), '');
 
 	return {
-		plugins: [react()] as PluginOption[],
+		plugins: [
+			react({ fastRefresh: false }),
+			qiankun('my-react-app', { useDevMode: true })
+		] as PluginOption[],
 		build: {
 			outDir: 'dist',
 			entry: resolve(__dirname, './src/main.ts'),
@@ -35,7 +39,7 @@ export default defineConfig(({ mode }: ConfigEnv) => {
 			cors: true,
 			hmr: {
 				protocol: 'wss',
-				host: 'website.nima.cc.cd',
+				host: 'nima.cc.cd',
 				clientPort: 443
 			},
 			https: {

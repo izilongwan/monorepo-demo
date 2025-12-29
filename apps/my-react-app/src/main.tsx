@@ -16,7 +16,7 @@ let ReactRoot: ReactDOM.Root | null = null;
 function renderApp(props: CommonObjectType = {}) {
 	const Router = () => useRoutes(routes);
 
-	ReactRoot = ReactDOM.createRoot(document.getElementById('root')!);
+	ReactRoot = ReactDOM.createRoot(document.getElementById('subapp')!);
 
 	ReactRoot.render(
 		<React.StrictMode>
@@ -36,20 +36,28 @@ if (!qiankunWindow?.__POWERED_BY_QIANKUN__) {
 	console.log('qiankun 微前端模式，等待 mount');
 }
 
+export const bootstrap = async () => {
+	console.log('my-react-app bootstraped');
+};
+
+export const mount = async (props: CommonObjectType) => {
+	console.log('my-react-app mount', props);
+	renderApp(props);
+};
+
+export const unmount = async (props: CommonObjectType) => {
+	console.log('my-react-app unmount', props);
+	ReactRoot?.unmount();
+	ReactRoot = null;
+};
+
+export const update = async (props: CommonObjectType) => {
+	console.log('my-react-app update', props);
+};
+
 renderWithQiankun({
-	bootstrap() {
-		console.log('my-react-app bootstraped');
-	},
-	mount(props) {
-		console.log('my-react-app mount', props);
-		renderApp(props);
-	},
-	unmount(props) {
-		console.log('my-react-app unmount', props);
-		ReactRoot?.unmount();
-		ReactRoot = null;
-	},
-	update(props) {
-		console.log('my-react-app update', props);
-	}
+	bootstrap,
+	mount,
+	unmount,
+	update
 });
