@@ -168,13 +168,7 @@ function Tsparticles() {
 	);
 
 	return ReactDOM.createPortal(
-		<div
-			style={{
-				position: 'relative',
-				width: '100%',
-				height: '100%',
-				overflow: 'hidden'
-			}}>
+		<div className="tw-absolute tw-w-full tw-h-full tw-top-0 tw-left-0">
 			{init && <Particles id="tsparticles" options={particlesConfig} />}
 			<div
 				style={{

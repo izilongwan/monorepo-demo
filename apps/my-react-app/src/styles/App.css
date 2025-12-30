@@ -1,5 +1,5 @@
 html,
 body,
-#root {
+.subapp {
   @apply tw-h-full tw-w-full;
 }
