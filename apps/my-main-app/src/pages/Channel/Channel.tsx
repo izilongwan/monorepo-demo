@@ -33,7 +33,10 @@ export default () => {
 	const actions = [
 		{
 			label: 'Update Info Text',
-			onClick: () => updateState({ info: inputValue }),
+			onClick: () => {
+				updateState({ info: inputValue });
+				setInputValue('');
+			},
 			className:
 				'tw-bg-yellow-100 tw-text-yellow-800 tw-border-yellow-200 hover:tw-bg-yellow-200'
 		},
