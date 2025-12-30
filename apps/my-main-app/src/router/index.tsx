@@ -50,7 +50,7 @@ export const subAppPaths = subAppRoutes.map((app) => app.activeRule.slice(1));
 export const routes: RouteObject[] = [
 	{
 		path: '/',
-		element: LazyLoadedView('App', { needWrapper: true }),
+		element: LazyLoadedView('App/App', { needWrapper: true }),
 		children: routesChildren
 	}
 ];

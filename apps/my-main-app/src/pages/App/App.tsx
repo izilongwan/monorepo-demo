@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { start } from 'qiankun';
 import { subAppPaths } from '@/router';
+import styles from './app.module.css';
 
 export default () => {
 	const location = useLocation();
@@ -23,7 +24,7 @@ export default () => {
 				<div
 					id="subapp-container"
 					style={{ display: isMicroApp ? 'block' : 'none' }}
-					className="tw-h-full tw-w-full">
+					className={styles['subapp-container']}>
 					<div id="subapp"></div>
 				</div>
 				{!isMicroApp && <Outlet />}

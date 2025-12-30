@@ -1,0 +1,7 @@
+.subapp-container :global(> [data-name]) {
+  @apply tw-h-full;
+}
+
+.subapp-container {
+  @apply tw-h-full tw-w-full tw-relative;
+}
