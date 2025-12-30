@@ -65,6 +65,15 @@ function Home() {
 						关于
 					</Link>
 				)
+			},
+			{
+				key: 'channel',
+				icon: <BgColorsOutlined />,
+				label: (
+					<Link to="channel" className={style.menuLink}>
+						通信
+					</Link>
+				)
 			}
 		],
 		[]
@@ -76,6 +85,7 @@ function Home() {
 	const setUser = useUserStore((state) => state.setUser);
 	const loginLoading = useUserStore((state) => state.loginLoading);
 	const setLoginLoading = useUserStore((state) => state.setLoginLoading);
+	const { globalState, updateGlobalState } = useGlobalStore();
 
 	useEffect(() => {
 		if (tokenUtil.getAccessToken()) {
