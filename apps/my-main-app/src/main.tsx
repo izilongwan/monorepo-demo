@@ -2,8 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
-import { routes, subAppRoutes } from './router';
+import { routes, buildSubAppRoutes } from './router';
 import { registerMicroApps } from 'qiankun';
+import {
+	setGlobalState,
+	onGlobalStateChange,
+	offGlobalStateChange
+} from '@/stores/qiankun';
 
 const router = createBrowserRouter(routes, { basename: '/' });
 
@@ -13,4 +18,10 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	</React.StrictMode>
 );
 
-registerMicroApps(subAppRoutes);
+registerMicroApps(
+	buildSubAppRoutes({
+		setGlobalState,
+		onGlobalStateChange,
+		offGlobalStateChange
+	})
+);
