@@ -1,10 +1,21 @@
 import GlobalSpin from '@/components/GlobalSpin';
 import { useEffect } from 'react';
-import { Outlet, useSearchParams } from 'react-router-dom';
+import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 import { tokenUtil } from '../utils/tokenUtil';
 
 export default () => {
 	const [params, setSearchParams] = useSearchParams();
+
+	const hasAccessToken = tokenUtil.getAccessToken();
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (!hasAccessToken) {
+			return;
+		}
+
+		navigate('/home', { replace: true });
+	}, []);
 
 	useEffect(() => {
 		if (tokenUtil.parseTokenFromUrl()) {
