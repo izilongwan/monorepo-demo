@@ -31,7 +31,7 @@ const props = defineProps<Props>();
 const data = defineModel<DataModel>('data');
 
 const getButtonClass = (btn: ButtonConfig): string => {
-  const baseClass = 'tw-px-4 tw-py-2 tw-rounded tw-cursor-pointer tw-transition-all tw-duration-300';
+  const baseClass = 'tw-px-2 tw-py-1 tw-rounded tw-cursor-pointer tw-transition-all tw-duration-300';
 
   if (['admin', 'user', 'none', 'default'].includes(btn.type)) {
     // 类型按钮：检查是否被选中

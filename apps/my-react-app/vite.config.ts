@@ -10,7 +10,7 @@ export default defineConfig(({ mode }: ConfigEnv) => {
 
 	return {
 		plugins: [
-			react({ fastRefresh: false }),
+			react(),
 			qiankun('my-react-app', { useDevMode: true })
 		] as PluginOption[],
 		build: {

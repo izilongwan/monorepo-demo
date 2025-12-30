@@ -11,7 +11,9 @@ export default () => {
 		subAppPaths.some((path) => location.pathname.startsWith(`/${path}`));
 
 	useEffect(() => {
-		start();
+		start({
+			sandbox: { experimentalStyleIsolation: true }
+		});
 	}, []);
 
 	return (
