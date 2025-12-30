@@ -6,9 +6,9 @@ import { subAppPaths } from '@/router';
 
 export default () => {
 	const location = useLocation();
-	const isMicroApp =
-		false ||
-		subAppPaths.some((path) => location.pathname.startsWith(`/${path}`));
+	const isMicroApp = subAppPaths.some((path) =>
+		location.pathname.startsWith(`/${path}`)
+	);
 
 	useEffect(() => {
 		start({
