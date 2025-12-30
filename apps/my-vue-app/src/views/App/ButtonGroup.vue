@@ -8,6 +8,7 @@
 </template>
 
 <script setup lang="ts">
+import { updateGlobalState } from '@/stores/global';
 import type { AuthType } from './constants';
 
 interface ButtonConfig {
@@ -57,6 +58,7 @@ const handleButtonClick = (btn: ButtonConfig) => {
     newData.count++;
   } else if (btn.value) {
     newData.type = btn.value;
+    updateGlobalState({ user: { role: btn.value } });
   }
 
   data.value = newData;

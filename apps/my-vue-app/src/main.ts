@@ -8,9 +8,16 @@ import {
 	qiankunWindow,
 	renderWithQiankun
 } from 'vite-plugin-qiankun/dist/helper';
+import {
+	GlobalStateProps,
+	initGlobalState,
+	updateGlobalState
+} from '@/stores/global';
 
-function renderApp(props: Record<string, any> = {}) {
+function renderApp(props = {} as GlobalStateProps) {
 	const app = createApp(App);
+	initGlobalState(props);
+	updateGlobalState({ app: { name: 'my-vue-app' } });
 	app.use(createAppRouter(props.base)).use(directives).mount('#subapp');
 }
 

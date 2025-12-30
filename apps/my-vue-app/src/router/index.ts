@@ -15,6 +15,11 @@ export const routes = [
 		name: 'Auth',
 		path: 'auth',
 		component: () => import('@/components/Auth.vue')
+	},
+	{
+		name: 'Channel',
+		path: 'channel',
+		component: () => import('@/views/Channel/Channel.vue')
 	}
 ];
 
