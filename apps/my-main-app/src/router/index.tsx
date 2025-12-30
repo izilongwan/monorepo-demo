@@ -13,13 +13,14 @@ export const LazyLoadedView = (viewName: string, props = {}) => {
 };
 
 export const routesChildren: RouteObject[] = [
-	{ index: true, element: LazyLoadedView('Home/Home') },
-	{ path: 'home', element: LazyLoadedView('Home/Home') },
-	{ path: 'test', element: LazyLoadedView('Test/Test') },
+	{ index: true, element: LazyLoadedView('Channel/Channel') },
 	{ path: 'channel', element: LazyLoadedView('Channel/Channel') },
 	// Micro-frontend sub-app routes
 	{ path: 'vue/*', element: null },
-	{ path: 'react/*', element: null }
+	{ path: 'react/*', element: null },
+
+	{ path: 'home', element: LazyLoadedView('Home/Home') },
+	{ path: 'test', element: LazyLoadedView('Test/Test') }
 ];
 
 export const menuRoutes = routesChildren
