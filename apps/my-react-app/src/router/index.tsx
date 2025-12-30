@@ -88,6 +88,7 @@ export const routes: RouteObject[] = [
 						)
 					},
 					{ path: 'about', element: LazyLoadComponent('About') },
+					{ path: 'channel', element: LazyLoadComponent('Channel') },
 					{ path: '*', element: LazyLoadComponent('NotFound') }
 				]
 			},

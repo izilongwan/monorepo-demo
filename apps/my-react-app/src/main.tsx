@@ -9,6 +9,7 @@ import {
 } from 'vite-plugin-qiankun/dist/helper';
 
 import { routes } from './router';
+import { GlobalProps, initGlobalState, useGlobalStore } from './stores/global';
 import { CommonObjectType } from './types/common';
 
 let ReactRoot: ReactDOM.Root | null = null;
@@ -40,8 +41,11 @@ export const bootstrap = async () => {
 	console.log('my-react-app bootstraped');
 };
 
-export const mount = async (props: CommonObjectType) => {
+export const mount = async (props: GlobalProps = {} as GlobalProps) => {
 	console.log('my-react-app mount', props);
+	initGlobalState(props);
+	const { updateGlobalState } = useGlobalStore.getState();
+	updateGlobalState({ app: 'my-react-app' }, false);
 	renderApp(props);
 };
 

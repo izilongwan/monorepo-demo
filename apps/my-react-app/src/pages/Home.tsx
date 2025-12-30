@@ -1,6 +1,7 @@
 import { fetchGithubUser, refreshAuthorityToken } from '@/apis/user-auth';
 import AuthTagPopover from '@/components/AuthTagPopover';
 import { useUserStore } from '@/stores';
+import { useGlobalStore } from '@/stores/global';
 import style from '@/styles/modules/Home.module.css';
 import { tokenUtil } from '@/utils/tokenUtil';
 import {
@@ -88,6 +89,7 @@ function Home() {
 		try {
 			const userData = await fetchGithubUser().promise;
 			setUser(userData);
+			updateGlobalState({ user: userData });
 			const info = await refreshAuthorityToken().promise;
 			if (info) {
 				tokenUtil.setAccessToken(info.accessToken);
@@ -95,6 +97,9 @@ function Home() {
 				setUser({
 					...userData,
 					authorities: info.authorities
+				});
+				updateGlobalState({
+					user: { ...userData, authorities: info.authorities }
 				});
 				message.success('权限刷新啦！');
 			}
@@ -121,10 +126,13 @@ function Home() {
 	// 根据路径获取当前菜单 key
 	const getCurrentMenuKey = useMemo(() => {
 		const path = location.pathname;
-		if (path.endsWith('api-code')) return 'api-code';
-		if (path.endsWith('user-management')) return 'user-management';
-		if (path.endsWith('about')) return 'about';
-		if (path.endsWith('main') || path === '/home') return 'main';
+		const item = menuItems.find((menu) => path.endsWith(`/${menu.key}`));
+		if (item) {
+			return item.key;
+		}
+		if (path.endsWith('/home')) {
+			return 'main';
+		}
 		return 'notfound';
 	}, [location.pathname]);
 
