@@ -12,7 +12,7 @@ export default defineConfig(({ mode }: ConfigEnv) => {
 		base: env.VITE_BASE_URL || '/',
 		plugins: [
 			react(),
-			qiankun('my-react-app', { useDevMode: true })
+			qiankun('my-react-app', { useDevMode: env.NODE_ENV === 'development' })
 		] as PluginOption[],
 		build: {
 			outDir: 'dist',

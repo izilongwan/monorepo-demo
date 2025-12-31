@@ -5,6 +5,7 @@
     "dev": "vite --mode test",
     "dev:localhost": "vite --mode localhost",
     "build": "tsc && vite build",
+    "build:localhost": "tsc && vite build --mode localhost",
     "serve": "vite preview"
   },
   "dependencies": {

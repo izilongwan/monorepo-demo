@@ -2,9 +2,19 @@ import { QiankunProps } from '@/stores/qiankun';
 import { lazy, Suspense } from 'react';
 import { RouteObject } from 'react-router-dom';
 
+const viewModules = import.meta.glob('../pages/**/*.tsx');
+
 export const LazyLoadedView = (viewName: string, props = {}) => {
-	const pathName = `../pages/${viewName}`;
-	const Comp = lazy(() => import(pathName));
+	const modulePath = `../pages/${viewName}.tsx`;
+	const loader = viewModules[modulePath];
+
+	if (!loader) {
+		throw new Error(`Page not found: ${modulePath}`);
+	}
+
+	const Comp = lazy(() =>
+		loader().then((mod: any) => ({ default: mod.default || mod }))
+	);
 
 	return (
 		<Suspense fallback={<div>Loading...</div>}>
@@ -37,8 +47,8 @@ export const buildSubAppRoutes = (
 		name: 'my-vue-app',
 		entry: '//v.nima.cc.cd',
 		container: '#subapp-container',
-		activeRule: `${props.mainBase}/my-vue-app`,
-		props: { some: 'data', base: `${props.mainBase}/my-vue-app`, ...props }
+		activeRule: `${props.mainBase}/vue`,
+		props: { some: 'data', base: `${props.mainBase}/vue`, ...props }
 	},
 	{
 		name: 'my-react-app',
