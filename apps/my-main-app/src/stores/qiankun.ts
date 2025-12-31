@@ -20,7 +20,7 @@ export const onGlobalStateChange = qiankunStore.onGlobalStateChange;
 export const setGlobalState = qiankunStore.setGlobalState;
 export const offGlobalStateChange = qiankunStore.offGlobalStateChange;
 
-export interface QiankunProps {
+export interface GlobalQiankunProps {
 	mainBase?: string;
 	setGlobalState: typeof setGlobalState;
 	onGlobalStateChange: typeof onGlobalStateChange;
