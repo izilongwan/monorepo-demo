@@ -88,6 +88,7 @@ class HttpClient {
 
 		try {
 			const response = await fetch(url, {
+				credentials: options.credentials || 'include',
 				...options,
 				signal: controller.signal
 			});
