@@ -18,15 +18,26 @@ const UnauthorizedGuard = memo((props: AuthProps) => {
 	return LazyLoadComponent('Unauthorized', props);
 });
 
+const pageModules = import.meta.glob('../pages/**/*.tsx');
+
 function LazyLoadComponent(
 	fileName: string,
 	props = {},
 	auth: USER_AUTHORITITY = USER_AUTHORITITY.GUEST
 ) {
 	// 添加 .tsx 扩展名以确保正确的文件导入
-	const pathName = `../pages/${fileName}`;
+	const pathName = `../pages/${fileName}.tsx`;
 
-	const Component = lazy(() => import(pathName));
+	if (!pageModules[pathName]) {
+		console.warn(`页面未找到: ${pathName}`);
+		return null;
+	}
+
+	const Component = lazy(() =>
+		pageModules[pathName]().then((mod: any) => ({
+			default: mod.default || mod
+		}))
+	);
 
 	const AuthComponent = () => {
 		if (auth === USER_AUTHORITITY.GUEST) {
