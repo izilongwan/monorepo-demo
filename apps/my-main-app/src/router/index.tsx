@@ -1,3 +1,4 @@
+import { QiankunProps } from '@/stores/qiankun';
 import { lazy, Suspense } from 'react';
 import { RouteObject } from 'react-router-dom';
 
@@ -23,30 +24,36 @@ export const routesChildren: RouteObject[] = [
 	{ path: 'test', element: LazyLoadedView('Test/Test') }
 ];
 
+const BASE_URL = import.meta.env.VITE_BASE_URL || '';
+
 export const menuRoutes = routesChildren
 	.filter((route) => route.path)
 	.map((route) => ({ path: route.path?.replace(/\/\*$/, '') }));
 
-export const buildSubAppRoutes = (props = {}) => [
+export const buildSubAppRoutes = (
+	props: QiankunProps = { mainBase: BASE_URL } as QiankunProps
+) => [
 	{
 		name: 'my-vue-app',
 		entry: '//v.nima.cc.cd',
 		container: '#subapp-container',
-		activeRule: '/vue',
-		props: { some: 'data', base: '/vue', ...props }
+		activeRule: `${props.mainBase}/my-vue-app`,
+		props: { some: 'data', base: `${props.mainBase}/my-vue-app`, ...props }
 	},
 	{
 		name: 'my-react-app',
 		entry: '//website.nima.cc.cd',
 		container: '#subapp-container',
-		activeRule: '/react',
-		props: { some: 'data2', base: '/react', ...props }
+		activeRule: `${props.mainBase}/react`,
+		props: { some: 'data2', base: `${props.mainBase}/react`, ...props }
 	}
 ];
 
 export const subAppRoutes = buildSubAppRoutes();
 
-export const subAppPaths = subAppRoutes.map((app) => app.activeRule.slice(1));
+export const subAppPaths = subAppRoutes.map((app) =>
+	app.activeRule.replace(BASE_URL, '')
+);
 
 export const routes: RouteObject[] = [
 	{

@@ -1,16 +1,18 @@
+import {
+	offGlobalStateChange,
+	onGlobalStateChange,
+	setGlobalState
+} from '@/stores/qiankun';
+import { registerMicroApps } from 'qiankun';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
-import { routes, buildSubAppRoutes } from './router';
-import { registerMicroApps } from 'qiankun';
-import {
-	setGlobalState,
-	onGlobalStateChange,
-	offGlobalStateChange
-} from '@/stores/qiankun';
+import { buildSubAppRoutes, routes } from './router';
 
-const router = createBrowserRouter(routes, { basename: '/' });
+const router = createBrowserRouter(routes, {
+	basename: import.meta.env.VITE_BASE_URL || '/'
+});
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
@@ -20,6 +22,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 
 registerMicroApps(
 	buildSubAppRoutes({
+		mainBase: import.meta.env.VITE_BASE_URL || '',
 		setGlobalState,
 		onGlobalStateChange,
 		offGlobalStateChange

@@ -8,7 +8,7 @@ import styles from './app.module.css';
 export default () => {
 	const location = useLocation();
 	const isMicroApp = subAppPaths.some((path) =>
-		location.pathname.startsWith(`/${path}`)
+		location.pathname.startsWith(path)
 	);
 
 	useEffect(() => {

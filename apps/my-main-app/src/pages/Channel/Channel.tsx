@@ -107,7 +107,7 @@ export default () => {
 					{actions.map((action, index) => (
 						<button
 							key={index}
-							className={`tw-px-4 tw-py-2 tw-rounded-md tw-border tw-transition-colors tw-font-medium ${action.className}`}
+							className={`tw-px-3 tw-py-1 tw-rounded-md tw-border tw-transition-colors tw-font-medium ${action.className}`}
 							onClick={action.onClick}>
 							{action.label}
 						</button>
