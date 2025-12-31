@@ -3,18 +3,18 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import { BrowserRouter, useRoutes } from 'react-router-dom';
+import type { QiankunProps } from 'vite-plugin-qiankun/dist/helper';
 import {
 	qiankunWindow,
 	renderWithQiankun
 } from 'vite-plugin-qiankun/dist/helper';
 
 import { routes } from './router';
-import { GlobalProps, initGlobalState, useGlobalStore } from './stores/global';
-import { CommonObjectType } from './types/common';
+import { initGlobalState, useGlobalStore } from './stores/global';
 
 let ReactRoot: ReactDOM.Root | null = null;
 
-function renderApp(props: CommonObjectType = {}) {
+const renderApp = (props: QiankunProps = {} as QiankunProps) => {
 	const Router = () => useRoutes(routes);
 
 	ReactRoot = ReactDOM.createRoot(document.getElementById('subapp')!);
@@ -26,7 +26,7 @@ function renderApp(props: CommonObjectType = {}) {
 			</BrowserRouter>
 		</React.StrictMode>
 	);
-}
+};
 
 console.log('__POWERED_BY_QIANKUN__', qiankunWindow?.__POWERED_BY_QIANKUN__);
 // 独立运行时
@@ -37,25 +37,25 @@ if (!qiankunWindow?.__POWERED_BY_QIANKUN__) {
 	console.log('qiankun 微前端模式，等待 mount');
 }
 
-export const bootstrap = async () => {
+const bootstrap = async () => {
 	console.log('my-react-app bootstraped');
 };
 
-export const mount = async (props: GlobalProps = {} as GlobalProps) => {
-	console.log('my-react-app mount', props);
-	initGlobalState(props);
+const mount = async (props: QiankunProps = {} as QiankunProps) => {
+	const globalProps = props;
+	initGlobalState(globalProps);
 	const { updateGlobalState } = useGlobalStore.getState();
 	updateGlobalState({ app: 'my-react-app' }, false);
-	renderApp(props);
+	renderApp(globalProps);
 };
 
-export const unmount = async (props: CommonObjectType) => {
+const unmount = async (props: QiankunProps) => {
 	console.log('my-react-app unmount', props);
 	ReactRoot?.unmount();
 	ReactRoot = null;
 };
 
-export const update = async (props: CommonObjectType) => {
+const update = async (props: QiankunProps) => {
 	console.log('my-react-app update', props);
 };
 
@@ -65,3 +65,5 @@ renderWithQiankun({
 	unmount,
 	update
 });
+
+export { bootstrap, mount, unmount, update };

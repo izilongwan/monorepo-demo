@@ -1,4 +1,5 @@
 import { CommonObjectType } from '@/types/common';
+import type { QiankunProps } from 'vite-plugin-qiankun/dist/helper';
 import { create } from 'zustand';
 
 export interface GlobalState {
@@ -6,14 +7,14 @@ export interface GlobalState {
 	updateGlobalState: (newState: CommonObjectType, isCover?: boolean) => void;
 }
 
-export interface GlobalProps extends CommonObjectType {
+export interface GlobalProps extends QiankunProps {
 	base?: string;
-	setGlobalState: (newState: Partial<GlobalState>) => void;
-	onGlobalStateChange: (
+	setGlobalState?: (newState: Partial<GlobalState>) => void;
+	onGlobalStateChange?: (
 		callback: (state: GlobalState, prevState: GlobalState) => void,
 		immediate: boolean
 	) => void;
-	offGlobalStateChange: () => boolean;
+	offGlobalStateChange?: () => boolean;
 }
 
 export const useGlobalStore = create<GlobalState>((set, get) => ({
