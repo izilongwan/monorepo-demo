@@ -9,6 +9,7 @@ export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), '');
 
 	return {
+		base: env.VITE_APP_BASE_URL || './',
 		plugins: [vue(), qiankun('my-vue-app', { useDevMode: true })],
 		build: {
 			entry: './src/main.ts',

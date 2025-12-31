@@ -1,20 +1,22 @@
-import { createApp } from 'vue'
+import '@/styles/index.css';
+import { createApp } from 'vue';
+import directives from './directives';
 import { createAppRouter } from './router';
 import App from './views/ViewRouter.vue';
-import '@/styles/index.css';
-import directives from './directives';
 
-import {
-	qiankunWindow,
-	renderWithQiankun
-} from 'vite-plugin-qiankun/dist/helper';
 import {
 	GlobalStateProps,
 	initGlobalState,
 	updateGlobalState
 } from '@/stores/global';
+import {
+	qiankunWindow,
+	renderWithQiankun
+} from 'vite-plugin-qiankun/dist/helper';
 
-function renderApp(props = {} as GlobalStateProps) {
+function renderApp(
+	props = { base: import.meta.env.VITE_APP_BASE_URL || '/' } as GlobalStateProps
+) {
 	const app = createApp(App);
 	initGlobalState(props);
 	updateGlobalState({ app: { name: 'my-vue-app' } });
@@ -32,16 +34,16 @@ export async function bootstrap() {
 	console.log('my-vue-app bootstraped');
 }
 
-export async function mount(props: Record<string, any>) {
+export async function mount(props: GlobalStateProps) {
 	console.log('my-vue-app mount', props);
 	renderApp(props);
 }
 
-export async function unmount(props: Record<string, any>) {
+export async function unmount(props: GlobalStateProps) {
 	console.log('my-vue-app unmount', props);
 }
 
-export async function update(props: Record<string, any>) {
+export async function update(props: GlobalStateProps) {
 	console.log('my-vue-app update', props);
 }
 
