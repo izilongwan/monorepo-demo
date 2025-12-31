@@ -15,7 +15,7 @@ export default function GlobalSpin() {
 	if (!active) return null;
 
 	return (
-		<div className="tw-fixed tw-inset-0 tw-z-[9999] tw-bg-black/20 tw-flex tw-items-center tw-justify-center">
+		<div className="tw-absolute tw-inset-0 tw-z-[9999] tw-bg-black/20 tw-flex tw-items-center tw-justify-center">
 			<Spin size="large" tip="加载中..." />
 		</div>
 	);
