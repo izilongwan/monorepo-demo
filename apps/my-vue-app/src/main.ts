@@ -4,18 +4,17 @@ import directives from './directives';
 import { createAppRouter } from './router';
 import App from './views/ViewRouter.vue';
 
+import { initGlobalState, updateGlobalState } from '@/stores/global';
 import {
-	GlobalStateProps,
-	initGlobalState,
-	updateGlobalState
-} from '@/stores/global';
-import {
+	QiankunProps,
 	qiankunWindow,
 	renderWithQiankun
 } from 'vite-plugin-qiankun/dist/helper';
 
 function renderApp(
-	props = { base: import.meta.env.VITE_APP_BASE_URL || '/' } as GlobalStateProps
+	props: QiankunProps = {
+		base: import.meta.env.VITE_APP_BASE_URL || '/'
+	} as QiankunProps
 ) {
 	const app = createApp(App);
 	initGlobalState(props);
@@ -34,16 +33,16 @@ export async function bootstrap() {
 	console.log('my-vue-app bootstraped');
 }
 
-export async function mount(props: GlobalStateProps) {
+export async function mount(props: QiankunProps) {
 	console.log('my-vue-app mount', props);
 	renderApp(props);
 }
 
-export async function unmount(props: GlobalStateProps) {
+export async function unmount(props: QiankunProps) {
 	console.log('my-vue-app unmount', props);
 }
 
-export async function update(props: GlobalStateProps) {
+export async function update(props: QiankunProps) {
 	console.log('my-vue-app update', props);
 }
 

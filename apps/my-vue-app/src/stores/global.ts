@@ -1,8 +1,9 @@
+import { QiankunProps } from 'vite-plugin-qiankun/dist/helper';
 import { reactive } from 'vue';
 
 type GlobalState = Record<string, any>;
 
-export interface GlobalStateProps extends GlobalState {
+export interface GlobalStateProps extends QiankunProps {
 	base?: string;
 	setGlobalState: (newState: Partial<GlobalState>) => void;
 	onGlobalStateChange: (
