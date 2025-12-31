@@ -14,7 +14,9 @@ import { initGlobalState, useGlobalStore } from './stores/global';
 
 let ReactRoot: ReactDOM.Root | null = null;
 
-const renderApp = (props: QiankunProps = {} as QiankunProps) => {
+const renderApp = (
+	props: QiankunProps = { base: import.meta.env.VITE_BASE_URL } as QiankunProps
+) => {
 	const Router = () => useRoutes(routes);
 
 	ReactRoot = ReactDOM.createRoot(document.getElementById('subapp')!);
@@ -28,7 +30,6 @@ const renderApp = (props: QiankunProps = {} as QiankunProps) => {
 	);
 };
 
-console.log('__POWERED_BY_QIANKUN__', qiankunWindow?.__POWERED_BY_QIANKUN__);
 // 独立运行时
 if (!qiankunWindow?.__POWERED_BY_QIANKUN__) {
 	console.log('独立运行模式，执行 renderApp');
