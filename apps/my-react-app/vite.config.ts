@@ -1,8 +1,8 @@
 import react from '@vitejs/plugin-react';
 import { readFileSync } from 'fs';
+import { resolve } from 'path';
 import type { ConfigEnv, PluginOption } from 'vite';
 import { defineConfig, loadEnv } from 'vite';
-import { resolve } from 'path';
 import qiankun from 'vite-plugin-qiankun';
 
 export default defineConfig(({ mode }: ConfigEnv) => {
@@ -23,6 +23,17 @@ export default defineConfig(({ mode }: ConfigEnv) => {
 				output: {
 					globals: {
 						// 如果有外部依赖，在这里添加全局变量名称
+					},
+					manualChunks(id) {
+						if (id.includes('node_modules')) {
+							if (id.includes('react')) return 'react';
+							if (id.includes('antd')) return 'antd';
+							if (id.includes('@ant-design')) return 'ant-design-charts';
+							if (id.includes('echarts')) return 'echarts';
+							if (id.includes('lodash')) return 'lodash';
+							// ...可继续细分
+							return 'vendor'; // 其余合并为 vendor
+						}
 					}
 				}
 			}
@@ -48,8 +59,8 @@ export default defineConfig(({ mode }: ConfigEnv) => {
 				cert: readFileSync(env.FRP_CERT_PATH)
 			},
 			proxy: {
-				'/api': {
-					target: 'https://localhost:9000',
+				[env.VITE_API_URL]: {
+					target: env.VITE_PROXY_API_URL,
 					changeOrigin: true,
 					secure: false,
 					rewrite: (path: string) => path.replace(/^\/api/, '')
