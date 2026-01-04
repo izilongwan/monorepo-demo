@@ -8,6 +8,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@monorepo-demo/vue-util": "workspace:^",
     "vue": "^3.5.25",
     "vue-router": "^4.6.4"
   },
