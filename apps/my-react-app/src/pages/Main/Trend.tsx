@@ -1,26 +1,29 @@
 import { getMainTrend } from '@/apis/main';
 import SkeletonCommon from '@/components/SkeletonCommon';
+import { useFetchData } from '@/hook/useFetchData';
 import { CommonObjectType } from '@/types/common';
 import { MainTrendItem } from '@/types/main';
 import { jsonParseSafe } from '@/utils/tool';
 import { Line, LineConfig } from '@ant-design/charts';
 import { Empty } from 'antd';
-import { Suspense, useEffect, useMemo, useState } from 'react';
+import { Suspense, useCallback, useMemo } from 'react';
 
 interface TrendsProps {
 	statsData: CommonObjectType[];
 }
 
 export default function Trends(props: TrendsProps) {
-	useEffect(() => {
-		fetchTrendData();
-	}, []);
+	const dataMap = useMemo(
+		() =>
+			props.statsData.reduce((prev, curr) => {
+				Object.assign(prev, { [curr.type]: curr });
+				Object.assign(prev, { [curr.title]: curr });
+				return prev;
+			}, {}),
+		[props.statsData]
+	);
 
-	const [trendData, setTrendData] = useState<MainTrendItem[]>();
-	const [loading, setLoading] = useState(false);
-
-	async function fetchTrendData() {
-		setLoading(true);
+	const fetchTrendData = useCallback(async () => {
 		const rs = await getMainTrend().promise;
 		const list = rs
 			.flatMap((item) =>
@@ -32,19 +35,10 @@ export default function Trends(props: TrendsProps) {
 			)
 			.sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
 
-		setTrendData(list);
-		setLoading(false);
-	}
+		return list;
+	}, [dataMap]);
 
-	const dataMap = useMemo(
-		() =>
-			props.statsData.reduce((prev, curr) => {
-				Object.assign(prev, { [curr.type]: curr });
-				Object.assign(prev, { [curr.title]: curr });
-				return prev;
-			}, {}),
-		[props.statsData]
-	);
+	const { data: trendData, isLoading: loading } = useFetchData(fetchTrendData);
 
 	const config: LineConfig = useMemo(
 		() => ({
