@@ -26,13 +26,7 @@ export default function About() {
 	// };
 
 	return (
-		<div
-			style={{
-				padding: '20px',
-				background: '#f5f5f5',
-				height: '100%',
-				boxSizing: 'border-box'
-			}}>
+		<div className="p-5 bg-gray-100 min-h-screen box-border">
 			{/* <Button onClick={handleBtnClick}>Focus</Button>
 			<InputTest inputRef={inputRef} fnRef={fnRef} /> */}
 
