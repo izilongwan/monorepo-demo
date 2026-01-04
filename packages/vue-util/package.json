@@ -1,0 +1,33 @@
+{
+  "name": "@monorepo-demo/vue-util",
+  "version": "1.0.0",
+  "description": "Vue utility library",
+  "type": "module",
+  "main": "dist/vue-util.cjs",
+  "module": "dist/vue-util.es.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/vue-util.es.js",
+      "require": "./dist/vue-util.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "vite:build": "vite build && tsc --emitDeclarationOnly --outDir dist",
+    "build": "vite build && tsc --target ES2020 --declaration --outDir dist",
+    "dev": "node --loader ts-node/esm index.ts"
+  },
+  "keywords": [
+    "vue",
+    "utils"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "vue": "^3.5.25"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.25"
+  }
+}

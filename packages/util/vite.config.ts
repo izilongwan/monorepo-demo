@@ -5,8 +5,8 @@ export default defineConfig({
 		lib: {
 			entry: 'index',
 			formats: ['es', 'cjs', 'umd'],
-			name: 'U1Lib',
-			fileName: (format) => `u1.${format}.js`
+			name: 'UtilLib',
+			fileName: (format) => `util.${format}.js`
 		},
 		outDir: 'dist',
 		rollupOptions: {
