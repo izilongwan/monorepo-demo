@@ -1,0 +1,38 @@
+{
+  "name": "@monorepo-demo/react-util",
+  "version": "1.0.0",
+  "description": "React utility library",
+  "type": "module",
+  "main": "dist/react-util.cjs",
+  "module": "dist/react-util.es.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/react-util.es.js",
+      "require": "./dist/react-util.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "vite:build": "vite build && tsc --emitDeclarationOnly --outDir dist",
+    "build": "vite build && tsc --target ES2020 --declaration --outDir dist",
+    "dev": "node --loader ts-node/esm index.ts"
+  },
+  "keywords": [
+    "react",
+    "utils"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}

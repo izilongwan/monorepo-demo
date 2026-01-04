@@ -1,10 +1,10 @@
 import { getMainTrend } from '@/apis/main';
 import SkeletonCommon from '@/components/SkeletonCommon';
-import { useFetchData } from '@/hook/useFetchData';
 import { CommonObjectType } from '@/types/common';
 import { MainTrendItem } from '@/types/main';
 import { jsonParseSafe } from '@/utils/tool';
 import { Line, LineConfig } from '@ant-design/charts';
+import { useFetchData } from '@monorepo-demo/react-util';
 import { Empty } from 'antd';
 import { Suspense, useCallback, useMemo } from 'react';
 

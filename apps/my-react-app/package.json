@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@ant-design/charts": "^2.6.7",
+    "@monorepo-demo/react-util": "workspace:^",
     "@monorepo-demo/u1": "workspace:^",
     "@tsparticles/engine": "^3.9.1",
     "@tsparticles/preset-stars": "^3.2.0",
