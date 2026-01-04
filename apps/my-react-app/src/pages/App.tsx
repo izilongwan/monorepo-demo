@@ -14,8 +14,10 @@ export default () => {
 			return;
 		}
 
-		navigate('/home', { replace: true });
-	}, []);
+		if (location.pathname.endsWith('/tsparticles')) {
+			navigate('/home', { replace: true });
+		}
+	}, [hasAccessToken, navigate]);
 
 	useEffect(() => {
 		if (tokenUtil.parseTokenFromUrl()) {
