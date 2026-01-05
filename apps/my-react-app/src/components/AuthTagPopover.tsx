@@ -17,26 +17,9 @@ export default function AuthTagPopover(props: AuthTagPopoverProps) {
 	return (
 		<Popover
 			content={
-				<div
-					style={{
-						maxHeight: 300,
-						overflowY: 'auto',
-						display: 'flex',
-						flexDirection: 'column',
-						gap: 6
-					}}>
-					<span
-						style={{
-							color: '#999',
-							fontSize: 12,
-							position: 'sticky',
-							top: 0,
-							background: '#fff',
-							zIndex: 99,
-							textAlign: 'right'
-						}}>
-						{' '}
-						共 {auths.length} 条
+				<div className="tw-max-h-80 tw-overflow-y-auto tw-flex tw-flex-col tw-gap-1.5">
+					<span className="tw-text-gray-500 tw-text-xs tw-sticky tw-top-0 tw-bg-white tw-z-50 tw-text-right">
+						共 {auths.length} 个
 					</span>
 					{auths.map((auth) => (
 						<div key={auth.id}>
@@ -44,7 +27,7 @@ export default function AuthTagPopover(props: AuthTagPopoverProps) {
 								{auth.name}
 							</Tag>
 							{auth.type && (
-								<span style={{ marginLeft: 8, color: '#999', fontSize: 12 }}>
+								<span className="tw-ml-2 tw-text-gray-500 tw-text-xs">
 									[{auth.type}]
 								</span>
 							)}
