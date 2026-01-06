@@ -10,14 +10,13 @@ import {
 	TeamOutlined,
 	UserOutlined
 } from '@ant-design/icons';
-import { Card, Col, Row, Statistic, Tag, Timeline } from 'antd';
+import { Card, Col, Row, Skeleton, Statistic, Tag, Timeline } from 'antd';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Trends from './Trend';
+import { useFetchData } from '@monorepo-demo/react-util';
 
 export default function Main() {
-	const [stats, setStats] = useState<typeof statsData>([]);
-
 	// 使用 useMemo 缓存静态数据，避免每次渲染重新创建
 	const statsData = useMemo(
 		() => [
@@ -58,28 +57,21 @@ export default function Main() {
 		[]
 	);
 
-	// 初始化状态时使用 useMemo 的 statsData
-	useEffect(() => {
-		setStats(statsData);
-	}, [statsData]);
-
 	const getHomeCommonAmountData = useCallback(async () => {
 		const rs = await getHomeCommonAmount().promise;
 		const map = rs.reduce((acc, item) => {
 			acc[item.type] = item.amount;
 			return acc;
 		}, {} as CommonObjectType);
-		setStats((prevStats) =>
-			prevStats.map((stat) => ({
-				...stat,
-				value: map[stat.type] || 0
-			}))
-		);
+		return statsData.map((stat) => ({
+			...stat,
+			value: map[stat.type] || 0
+		}));
 	}, []);
 
-	useEffect(() => {
-		getHomeCommonAmountData();
-	}, [getHomeCommonAmountData]);
+	const { data: stats = statsData, isLoading } = useFetchData(
+		getHomeCommonAmountData
+	);
 
 	// 使用 useMemo 缓存 features 数据
 	const features = useMemo(
@@ -144,14 +136,16 @@ export default function Main() {
 							hoverable
 							onClick={() => handleNavigate(stat.url)}>
 							<div className="tw-flex tw-items-center tw-justify-between">
-								<div>
+								{isLoading ? (
+									<Skeleton paragraph={{ rows: 1 }} active />
+								) : (
 									<Statistic
 										title={stat.title}
 										value={stat.value}
 										suffix={stat.suffix}
 										valueStyle={{ color: stat.color }}
 									/>
-								</div>
+								)}
 								<div
 									className="tw-text-[32px] tw-opacity-20"
 									style={{ color: stat.color }}>
