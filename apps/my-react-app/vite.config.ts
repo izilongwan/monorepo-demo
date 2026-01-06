@@ -49,11 +49,11 @@ export default defineConfig(({ mode }: ConfigEnv) => {
 			port: 5173,
 			strictPort: true,
 			cors: true,
-			hmr: {
-				protocol: 'wss',
-				host: 'nima.cc.cd',
-				clientPort: 443
-			},
+			// hmr: {
+			// 	protocol: 'wss',
+			// 	host: 'nima.cc.cd',
+			// 	clientPort: 443
+			// },
 			https: {
 				key: readFileSync(env.FRP_CERT_KEY_PATH),
 				cert: readFileSync(env.FRP_CERT_PATH)

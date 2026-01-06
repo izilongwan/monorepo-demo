@@ -4,7 +4,7 @@ import { CommonObjectType } from '@/types/common';
 import { MainTrendItem } from '@/types/main';
 import { jsonParseSafe } from '@/utils/tool';
 import { Line, LineConfig } from '@ant-design/charts';
-import { useFetchData } from '@monorepo-demo/react-util';
+import { useFetchData, useObserveDom } from '@monorepo-demo/react-util';
 import { Empty } from 'antd';
 import { Suspense, useCallback, useMemo } from 'react';
 
@@ -38,7 +38,8 @@ export default function Trends(props: TrendsProps) {
 		return list;
 	}, [dataMap]);
 
-	const { data: trendData, isLoading: loading } = useFetchData(fetchTrendData);
+	const { data: trendData = [], isLoading: loading } =
+		useFetchData(fetchTrendData);
 
 	const config: LineConfig = useMemo(
 		() => ({
@@ -62,15 +63,19 @@ export default function Trends(props: TrendsProps) {
 		[trendData, props.statsData]
 	);
 
-	if (loading) {
-		return <SkeletonCommon />;
-	}
+	const { containerRef, key } = useObserveDom();
 
-	return trendData?.length ? (
-		<Suspense fallback={<SkeletonCommon />}>
-			<Line {...config} height={300} />
-		</Suspense>
-	) : (
-		<Empty className="tw-my-3" />
+	return (
+		<div ref={containerRef} className="tw-min-h-[300px]">
+			{loading && <SkeletonCommon />}
+
+			{trendData?.length ? (
+				<Suspense fallback={<SkeletonCommon />}>
+					<Line {...config} height={300} key={key} />
+				</Suspense>
+			) : (
+				<Empty className="tw-my-3" />
+			)}
+		</div>
 	);
 }
