@@ -12,8 +12,9 @@ import {
 	LogoutOutlined,
 	UserOutlined
 } from '@ant-design/icons';
+import { useLocalStorage, useStorage } from '@monorepo-demo/react-util';
 import { Avatar, Button, Dropdown, Layout, Menu, message, Space } from 'antd';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 
 const { Header, Sider, Content } = Layout;
@@ -86,6 +87,11 @@ function Home() {
 	const loginLoading = useUserStore((state) => state.loginLoading);
 	const setLoginLoading = useUserStore((state) => state.setLoginLoading);
 	const { globalState, updateGlobalState } = useGlobalStore();
+
+	const [sidebarCollapsed, setSidebarCollapsed] = useLocalStorage(
+		'app-dashboard-sidebar-collapsed',
+		false
+	);
 
 	useEffect(() => {
 		if (tokenUtil.getAccessToken()) {
@@ -235,7 +241,13 @@ function Home() {
 			</Header>
 
 			<Layout>
-				<Sider width={200} className={style.sider}>
+				<Sider
+					width={200}
+					className={style.sider}
+					collapsible
+					theme="light"
+					defaultCollapsed={sidebarCollapsed}
+					onCollapse={setSidebarCollapsed}>
 					<Menu
 						mode="inline"
 						selectedKeys={[getCurrentMenuKey]}
