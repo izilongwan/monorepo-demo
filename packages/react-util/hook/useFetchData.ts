@@ -2,9 +2,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface UseFetchDataState<T> {
 	data: T | undefined;
-	isLoading: boolean;
 	error: Error | null;
+	isLoading: boolean;
 	refetch: () => Promise<T | undefined>;
+	setData: React.Dispatch<React.SetStateAction<T | undefined>>;
+	setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const useFetchData = <T = any>(
@@ -51,5 +53,5 @@ export const useFetchData = <T = any>(
 		};
 	}, [immediate]);
 
-	return { data, isLoading: loading, error, refetch };
+	return { data, isLoading: loading, error, refetch, setData, setLoading };
 };
