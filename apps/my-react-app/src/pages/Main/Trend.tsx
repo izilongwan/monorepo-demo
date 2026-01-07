@@ -107,7 +107,10 @@ export default function Trends(props: TrendsProps) {
 				)}
 			</Skeleton>
 
-			<Skeleton paragraph={{ rows: 4 }} loading={loading && !trendData?.length}>
+			<Skeleton
+				className="tw-mt-2"
+				paragraph={{ rows: 4 }}
+				loading={loading && !trendData?.length}>
 				{trendData?.length ? (
 					<Line {...config} height={300} key={key} />
 				) : (

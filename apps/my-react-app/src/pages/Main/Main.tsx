@@ -4,22 +4,29 @@ import { CommonObjectType } from '@/types/common';
 import { USER_MANAGEMENT_TYPE } from '@/types/user-management';
 import { USER_MANAGEMENT_TAB_TYPE_KEY } from '@/utils/const';
 import {
-	ArrowUpOutlined,
+	CloudOutlined,
 	CodeOutlined,
 	FileTextOutlined,
 	TeamOutlined,
 	UserOutlined
 } from '@ant-design/icons';
+import { useFetchData } from '@monorepo-demo/react-util';
 import { Card, Col, Row, Skeleton, Statistic, Tag, Timeline } from 'antd';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Trends from './Trend';
-import { useFetchData } from '@monorepo-demo/react-util';
 
 export default function Main() {
 	// 使用 useMemo 缓存静态数据，避免每次渲染重新创建
 	const statsData = useMemo(
 		() => [
+			{
+				type: 'apiQueryToday',
+				title: '今日接口访问',
+				value: 0,
+				icon: <CloudOutlined />,
+				color: '#f873ddff'
+			},
 			{
 				type: 'apiCode',
 				title: 'API 接口',
@@ -63,6 +70,7 @@ export default function Main() {
 			acc[item.type] = item.amount;
 			return acc;
 		}, {} as CommonObjectType);
+
 		return statsData.map((stat) => ({
 			...stat,
 			value: map[stat.type] || 0
@@ -128,9 +136,13 @@ export default function Main() {
 			</Card>
 
 			{/* 统计数据 */}
-			<Row gutter={[16, 16]} className="tw-mt-6">
+			<Row gutter={[16, 16]} className="tw-mt-6 tw-flex tw-flex-wrap">
 				{stats.map((stat, index) => (
-					<Col xs={24} sm={12} lg={6} key={index}>
+					<Col
+						xs={24}
+						sm={12}
+						style={{ flex: '1 1 calc(20% - 12px)' }}
+						key={index}>
 						<Card
 							className={style.statCard}
 							hoverable
@@ -142,7 +154,7 @@ export default function Main() {
 									<Statistic
 										title={stat.title}
 										value={stat.value}
-										suffix={stat.suffix}
+										suffix={null}
 										valueStyle={{ color: stat.color }}
 									/>
 								)}
@@ -157,7 +169,9 @@ export default function Main() {
 				))}
 			</Row>
 
-			<Trends statsData={statsData} />
+			<Trends
+				statsData={statsData.filter((stat) => stat.type !== 'apiQueryToday')}
+			/>
 
 			{/* 功能特性 */}
 			<div className="tw-mt-10">
