@@ -9,3 +9,9 @@ export interface MainTrendItem {
 	amount: number;
 	type: string;
 }
+
+export interface MainApi {
+	uri: string;
+	amount: number;
+	date: string;
+}

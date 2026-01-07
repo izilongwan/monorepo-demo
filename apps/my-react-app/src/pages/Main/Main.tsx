@@ -34,7 +34,7 @@ export default function Main() {
 				value: 0,
 				icon: <UserOutlined />,
 				color: '#52c41a',
-				suffix: <ArrowUpOutlined className="tw-text-green-500" />,
+				// suffix: <ArrowUpOutlined className="tw-text-green-500" />,
 				url: '/home/user-management'
 			},
 			{
