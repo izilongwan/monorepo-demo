@@ -166,7 +166,7 @@ function Home() {
 			<Header className={style.homeHeader}>
 				<div className={style.logo}>
 					<Link to="/" className={style.logoLink}>
-						📱 App Dashboard
+						📱 Dashboard
 					</Link>
 				</div>
 				<div style={{ flex: 1 }} />
