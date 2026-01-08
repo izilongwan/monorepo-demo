@@ -1,7 +1,6 @@
-import { fetchGithubUser, refreshAuthorityToken } from '@/apis/user-auth';
+import { fetchGithubUser } from '@/apis/user-auth';
 import AuthTagPopover from '@/components/AuthTagPopover';
 import { useUserStore } from '@/stores';
-import { useGlobalStore } from '@/stores/global';
 import style from '@/styles/modules/Home.module.css';
 import { tokenUtil } from '@/utils/tokenUtil';
 import {
@@ -12,9 +11,9 @@ import {
 	LogoutOutlined,
 	UserOutlined
 } from '@ant-design/icons';
-import { useLocalStorage, useStorage } from '@monorepo-demo/react-util';
+import { useLocalStorage } from '@monorepo-demo/react-util';
 import { Avatar, Button, Dropdown, Layout, Menu, message, Space } from 'antd';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 
 const { Header, Sider, Content } = Layout;
@@ -85,45 +84,11 @@ function Home() {
 	const user = useUserStore((state) => state.user);
 	const setUser = useUserStore((state) => state.setUser);
 	const loginLoading = useUserStore((state) => state.loginLoading);
-	const setLoginLoading = useUserStore((state) => state.setLoginLoading);
-	const { globalState, updateGlobalState } = useGlobalStore();
 
 	const [sidebarCollapsed, setSidebarCollapsed] = useLocalStorage(
 		'app-dashboard-sidebar-collapsed',
 		false
 	);
-
-	useEffect(() => {
-		if (tokenUtil.getAccessToken()) {
-			getUserInfo();
-		}
-	}, []);
-
-	// 模拟登录
-	const getUserInfo = async () => {
-		setLoginLoading(true);
-		try {
-			const userData = await fetchGithubUser().promise;
-			setUser(userData);
-			updateGlobalState({ user: userData });
-			const info = await refreshAuthorityToken().promise;
-			if (info) {
-				tokenUtil.setAccessToken(info.accessToken);
-				tokenUtil.setRefreshToken(info.refreshToken);
-				setUser({
-					...userData,
-					authorities: info.authorities
-				});
-				updateGlobalState({
-					user: { ...userData, authorities: info.authorities }
-				});
-				message.success('权限刷新啦！');
-			}
-			message.success('登录成功');
-		} finally {
-			setLoginLoading(false);
-		}
-	};
 
 	const handleLogin = async () => {
 		await fetchGithubUser({
