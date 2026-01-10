@@ -39,34 +39,37 @@ export default function Trends(props: TrendsProps) {
 	const { data: trendData = [], isLoading: loading } =
 		useFetchData(fetchTrendData);
 
-	const config: LineConfig = useMemo(
-		() => ({
-			data: trendData,
-			xField: 'date',
-			yField: 'amount',
-			colorField: 'type',
-			autoFit: true,
-			slider: {
-				x: {}
-			},
-			style: {
-				lineWidth: 2
-			},
-			shapeField: 'smooth',
-			point: {
-				size: 5,
-				shape: 'circle',
-				color: null // 自动使用 colorField 的颜色
-			},
-			scale: {
-				color: {
-					domain: props.statsData?.map((o) => o.title) ?? [],
-					range: props.statsData?.map((o) => o.color) ?? []
+		const config: LineConfig = useMemo(
+			() => ({
+				data: trendData,
+				xField: 'date',
+				yField: 'amount',
+				colorField: 'type',
+				autoFit: true,
+				slider: {
+					x: {}
+				},
+				style: {
+					lineWidth: 2
+				},
+				shapeField: 'smooth',
+				point: {
+					size: 5,
+					shape: 'circle',
+					color: null
+				},
+				scale: {
+					y: {
+						type: 'log' // 对数刻度，适合数据差值大的情况
+					},
+					color: {
+						domain: props.statsData?.map((o) => o.title) ?? [],
+						range: props.statsData?.map((o) => o.color) ?? []
+					}
 				}
-			}
-		}),
-		[trendData, props.statsData]
-	);
+			}),
+			[trendData, props.statsData]
+		);
 	const { containerRef, key } = useObserveDom();
 
 	const { data: apiTrendData = [], isLoading: apiLoading } =
@@ -84,6 +87,11 @@ export default function Trends(props: TrendsProps) {
 			},
 			style: {
 				lineWidth: 2
+			},
+			scale: {
+				y: {
+					type: 'log' // 对数刻度
+				}
 			},
 			point: {
 				size: 5,

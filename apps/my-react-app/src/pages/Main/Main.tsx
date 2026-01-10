@@ -169,9 +169,7 @@ export default function Main() {
 				))}
 			</Row>
 
-			<Trends
-				statsData={statsData.filter((stat) => stat.type !== 'apiQueryToday')}
-			/>
+			<Trends statsData={statsData} />
 
 			{/* 功能特性 */}
 			<div className="tw-mt-10">
