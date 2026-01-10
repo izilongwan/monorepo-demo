@@ -11,7 +11,11 @@ import {
 	TeamOutlined,
 	UserOutlined
 } from '@ant-design/icons';
-import { useFetchData, useLocalStorage } from '@monorepo-demo/react-util';
+import {
+	TimeUnits,
+	useFetchData,
+	useLocalStorage
+} from '@monorepo-demo/react-util';
 import { Card, Col, Row, Skeleton, Statistic, Tag, Timeline } from 'antd';
 import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -141,7 +145,8 @@ export default function Main() {
 
 	const [showWelcome, setShowWelcome] = useLocalStorage(
 		StorageKeys.SHOW_WELCOME_CARD,
-		true
+		true,
+		TimeUnits.DAY * 7
 	);
 
 	return (
