@@ -2,6 +2,7 @@ export interface MainTrend {
 	info: string;
 	data: MainTrendItem[];
 	type: string;
+	title: string;
 }
 
 export interface MainTrendItem {

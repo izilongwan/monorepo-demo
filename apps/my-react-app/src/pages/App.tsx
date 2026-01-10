@@ -20,7 +20,7 @@ export default () => {
 		if (location.pathname.endsWith('/tsparticles')) {
 			navigate('/home', { replace: true });
 		}
-	}, [hasAccessToken, navigate]);
+	}, [hasAccessToken]);
 
 	useEffect(() => {
 		if (tokenUtil.parseTokenFromUrl()) {

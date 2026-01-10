@@ -4,13 +4,14 @@ import { CommonObjectType } from '@/types/common';
 import { USER_MANAGEMENT_TYPE } from '@/types/user-management';
 import { USER_MANAGEMENT_TAB_TYPE_KEY } from '@/utils/const';
 import {
+	CloseCircleOutlined,
 	CloudOutlined,
 	CodeOutlined,
 	FileTextOutlined,
 	TeamOutlined,
 	UserOutlined
 } from '@ant-design/icons';
-import { useFetchData } from '@monorepo-demo/react-util';
+import { useFetchData, useLocalStorage } from '@monorepo-demo/react-util';
 import { Card, Col, Row, Skeleton, Statistic, Tag, Timeline } from 'antd';
 import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -67,18 +68,28 @@ export default function Main() {
 	const getHomeCommonAmountData = useCallback(async () => {
 		const rs = await getHomeCommonAmount().promise;
 		const map = rs.reduce((acc, item) => {
-			acc[item.type] = item.amount;
+			acc[item.type] = item;
 			return acc;
 		}, {} as CommonObjectType);
 
 		return statsData.map((stat) => ({
 			...stat,
-			value: map[stat.type] || 0
+			title: map[stat.type]?.title || stat.title,
+			value: map[stat.type]?.amount || 0
 		}));
 	}, []);
 
 	const { data: stats = statsData, isLoading } = useFetchData(
 		getHomeCommonAmountData
+	);
+
+	const trendStats = useMemo(
+		() =>
+			stats.map((stat) => ({
+				type: stat.type === statsData[0].type ? 'apiQuery' : stat.type,
+				color: stat.color
+			})),
+		[stats]
 	);
 
 	// 使用 useMemo 缓存 features 数据
@@ -127,16 +138,28 @@ export default function Main() {
 		}
 	}
 
+	const [showWelcome, setShowWelcome] = useLocalStorage(
+		'app-dashboard-show-welcome',
+		true
+	);
+
 	return (
 		<div className={style.mainPage}>
 			{/* 欢迎区域 */}
-			<Card className={style.welcomeCard}>
-				<h1 className={style.title}>欢迎来到 App Dashboard</h1>
-				<p className={style.subtitle}>这是一个现代化的前端应用管理系统</p>
-			</Card>
+			{showWelcome && (
+				<Card className={style.welcomeCard}>
+					<CloseCircleOutlined
+						className="tw-absolute tw-right-3 tw-top-3"
+						size={18}
+						onClick={() => setShowWelcome(false)}
+					/>
+					<h1 className={style.title}>欢迎来到 App Dashboard</h1>
+					<p className={style.subtitle}>这是一个现代化的前端应用管理系统</p>
+				</Card>
+			)}
 
 			{/* 统计数据 */}
-			<Row gutter={[16, 16]} className="tw-mt-6 tw-flex tw-flex-wrap">
+			<Row gutter={[16, 16]} className="tw-flex tw-flex-wrap">
 				{stats.map((stat, index) => (
 					<Col
 						xs={24}
@@ -147,7 +170,7 @@ export default function Main() {
 							className={style.statCard}
 							hoverable
 							onClick={() => handleNavigate(stat.url)}>
-							<div className="tw-flex tw-items-center tw-justify-between">
+							<div className="tw-flex tw-items-center tw-justify-between [&_.ant-statistic-title]:tw-truncate">
 								{isLoading ? (
 									<Skeleton paragraph={{ rows: 1 }} active />
 								) : (
@@ -169,7 +192,7 @@ export default function Main() {
 				))}
 			</Row>
 
-			<Trends statsData={statsData} />
+			<Trends statsData={trendStats} />
 
 			{/* 功能特性 */}
 			<div className="tw-mt-10">
