@@ -16,6 +16,7 @@ import { Card, Col, Row, Skeleton, Statistic, Tag, Timeline } from 'antd';
 import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Trends from './Trend';
+import { StorageKeys } from '@/utils/storage';
 
 export default function Main() {
 	// 使用 useMemo 缓存静态数据，避免每次渲染重新创建
@@ -139,7 +140,7 @@ export default function Main() {
 	}
 
 	const [showWelcome, setShowWelcome] = useLocalStorage(
-		'app-dashboard-show-welcome',
+		StorageKeys.SHOW_WELCOME_CARD,
 		true
 	);
 

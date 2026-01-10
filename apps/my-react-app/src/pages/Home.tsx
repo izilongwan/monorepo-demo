@@ -2,6 +2,7 @@ import { fetchGithubUser } from '@/apis/user-auth';
 import AuthTagPopover from '@/components/AuthTagPopover';
 import { useUserStore } from '@/stores';
 import style from '@/styles/modules/Home.module.css';
+import { StorageKeys } from '@/utils/storage';
 import { tokenUtil } from '@/utils/tokenUtil';
 import {
 	BgColorsOutlined,
@@ -86,7 +87,7 @@ function Home() {
 	const loginLoading = useUserStore((state) => state.loginLoading);
 
 	const [sidebarCollapsed, setSidebarCollapsed] = useLocalStorage(
-		'app-dashboard-sidebar-collapsed',
+		StorageKeys.SIDEBAR_COLLAPSED,
 		false
 	);
 
