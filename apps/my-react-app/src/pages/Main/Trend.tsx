@@ -1,29 +1,19 @@
 import { getMainApiTrend, getMainTrend } from '@/apis/main';
-import { CommonObjectType } from '@/types/common';
-import { MainTrendItem } from '@/types/main';
+import { MainTrend, MainTrendItem } from '@/types/main';
 import { jsonParseSafe } from '@/utils/tool';
 import { Line, LineConfig } from '@ant-design/charts';
 import { useFetchData, useObserveDom } from '@monorepo-demo/react-util';
 import { Empty, Skeleton } from 'antd';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
-interface TrendsProps {
-	statsData: CommonObjectType[];
-}
+interface TrendsProps {}
 
 export default function Trends(props: TrendsProps) {
-	const dataMap = useMemo(
-		() =>
-			props.statsData.reduce((prev, curr) => {
-				Object.assign(prev, { [curr.type]: curr });
-				Object.assign(prev, { [curr.title]: curr });
-				return prev;
-			}, {}),
-		[props.statsData]
-	);
+	const [trendData, setTrendData] = useState<MainTrend[]>([]);
 
 	const fetchTrendData = useCallback(async () => {
 		const rs = await getMainTrend().promise;
+		setTrendData(rs || []);
 		const list = rs
 			.flatMap((item) =>
 				jsonParseSafe(item.info, [] as MainTrendItem[])?.map((o) => ({
@@ -34,14 +24,14 @@ export default function Trends(props: TrendsProps) {
 			.sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
 
 		return list;
-	}, [dataMap]);
+	}, []);
 
-	const { data: trendData = [], isLoading: loading } =
+	const { data: trends = [], isLoading: loading } =
 		useFetchData(fetchTrendData);
 
 	const config: LineConfig = useMemo(
 		() => ({
-			data: trendData,
+			data: trends,
 			xField: 'date',
 			yField: 'amount',
 			colorField: 'type',
@@ -63,12 +53,12 @@ export default function Trends(props: TrendsProps) {
 					type: 'log' // 对数刻度，适合数据差值大的情况
 				},
 				color: {
-					domain: props.statsData?.map((o) => o.title) ?? [],
-					range: props.statsData?.map((o) => o.color) ?? []
+					domain: trendData.map((trend) => trend.title),
+					range: trendData.map((trend) => trend.color)
 				}
 			}
 		}),
-		[trendData, props.statsData]
+		[trends, trendData]
 	);
 	const { containerRef, key } = useObserveDom();
 
@@ -108,11 +98,11 @@ export default function Trends(props: TrendsProps) {
 			<Skeleton
 				className="tw-mt-2"
 				paragraph={{ rows: 4 }}
-				loading={loading && !trendData?.length}>
-				{trendData?.length ? (
+				loading={loading && !trends?.length}>
+				{trends?.length ? (
 					<Line {...config} height={300} key={key} />
 				) : (
-					<Empty className="tw-my-3" />
+					<Empty className="tw-min-h-[300px] tw-flex tw-flex-col tw-justify-center" />
 				)}
 			</Skeleton>
 
@@ -122,7 +112,7 @@ export default function Trends(props: TrendsProps) {
 				{apiTrendData?.length ? (
 					<Line {...apiConfig} height={300} key={key} />
 				) : (
-					<Empty className="tw-my-3" />
+					<Empty className="tw-min-h-[300px] tw-flex tw-flex-col tw-justify-center" />
 				)}
 			</Skeleton>
 		</div>

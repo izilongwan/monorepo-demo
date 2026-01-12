@@ -88,15 +88,6 @@ export default function Main() {
 		getHomeCommonAmountData
 	);
 
-	const trendStats = useMemo(
-		() =>
-			stats.map((stat) => ({
-				type: stat.type === statsData[0].type ? 'apiQuery' : stat.type,
-				color: stat.color
-			})),
-		[stats]
-	);
-
 	// 使用 useMemo 缓存 features 数据
 	const features = useMemo(
 		() => [
@@ -198,7 +189,7 @@ export default function Main() {
 				))}
 			</Row>
 
-			<Trends statsData={trendStats} />
+			<Trends />
 
 			{/* 功能特性 */}
 			<div className="tw-mt-10">

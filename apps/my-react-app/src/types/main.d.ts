@@ -3,6 +3,7 @@ export interface MainTrend {
 	data: MainTrendItem[];
 	type: string;
 	title: string;
+	color: string;
 }
 
 export interface MainTrendItem {
